@@ -20,7 +20,7 @@ class InMemoryGameTest extends TestCase
         $this->assertEquals([$game], $game_repository->findAll());
     }
 
-    
+
     public function testFindGameOfId()
     {
         $game = new Game(1, '2024-12-11', 'adulte');
@@ -30,7 +30,7 @@ class InMemoryGameTest extends TestCase
         $this->assertEquals($game, $game_repository->findGameOfId(1));
     }
 
-    
+
     public function testFindGameOfIdThrowsNotFoundException()
     {
         $game_repository = new InMemoryGameRepository([]);
