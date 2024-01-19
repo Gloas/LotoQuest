@@ -13,14 +13,24 @@ use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
-    $app->options('/{routes:.*}', function (Request $request, Response $response) {
-        // CORS Pre-Flight OPTIONS Request Handler
-        return $response;
-    });
+    // $app->options('/{routes:.*}', function (Request $request, Response $response) {
+    //     // CORS Pre-Flight OPTIONS Request Handler
+    //     return $response;
+    // });
 
     $app->get('/', function (Request $request, Response $response) {
         $home = new ViewHomeAction;
         return $home($request, $response);
+    });
+
+    $app->get('/{loto}/{partie_id}/{round_name}/{random}', function (Request $request, Response $response, array $args = []) {
+        $home = new ViewHomeAction;
+        return $home($request, $response, $args);
+    });
+
+    $app->get('/{loto}/{partie_id}/{round_name}', function (Request $request, Response $response, array $args = []) {
+        $home = new ViewHomeAction;
+        return $home($request, $response, $args);
     });
 
     $app->group('/users', function (Group $group) {
