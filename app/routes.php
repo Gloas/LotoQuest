@@ -23,6 +23,16 @@ return function (App $app) {
         return $home($request, $response);
     });
 
+    $app->group('/users', function (Group $group) {
+        $group->get('', ListUsersAction::class);
+        $group->get('/{id}', ViewUserAction::class);
+    });
+
+    $app->get('/reset', function (Request $request, Response $response) {
+        $home = (new ViewHomeAction)->reset();
+        return $home($request, $response);
+    });
+
     $app->get('/{loto}/{partie_id}/{round_name}/{random}', function (Request $request, Response $response, array $args = []) {
         $home = new ViewHomeAction;
         return $home($request, $response, $args);
@@ -33,8 +43,13 @@ return function (App $app) {
         return $home($request, $response, $args);
     });
 
-    $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+    $app->get('/{loto}/{partie_id}', function (Request $request, Response $response, array $args = []) {
+        $home = new ViewHomeAction;
+        return $home($request, $response, $args);
+    });
+
+    $app->get('/{loto}', function (Request $request, Response $response, array $args = []) {
+        $home = new ViewHomeAction;
+        return $home($request, $response, $args);
     });
 };

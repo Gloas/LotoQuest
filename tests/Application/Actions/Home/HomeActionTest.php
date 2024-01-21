@@ -73,14 +73,21 @@ class HomeActionTest extends LotoQuestTestCase
 
     public function testWithRandomParamOneNumberTableShouldBePresent()
     {
-        $this->_dispatch('/adults/1/quine/random');
+        $this->_dispatch('/adulte/1/quine/random');
         $this->assertStringContainsString('table table-info text-center', $this->_body);
     }
 
 
     public function testWithRandomParamOneCurrentNumberShouldBePresent()
     {
-        $this->_dispatch('/adults/1/quine/random');
+        $this->_dispatch('/adulte/1/quine/random');
         $this->assertStringContainsString('badge rounded-pill text-bg-success current_number', $this->_body);
+    }
+
+
+    public function testWithResetParamShouldReset()
+    {
+        $this->_dispatch('/reset');
+        $this->assertStringContainsString('Loto', $this->_body);
     }
 }

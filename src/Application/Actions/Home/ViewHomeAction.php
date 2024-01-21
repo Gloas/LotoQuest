@@ -34,4 +34,11 @@ class ViewHomeAction
             ->printInResponseBody()
             ->response();
     }
+
+
+    public function reset(): static
+    {
+        LotoQuest::resetParties();
+        return $this;
+    }
 }

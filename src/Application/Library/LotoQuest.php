@@ -21,7 +21,18 @@ class LotoQuest
     protected string $_loto_id;
     protected string $_partie_id;
     protected string $_round_id;
-    protected string $_pick_a_random_number;
+    protected bool $_pick_a_random_number;
+
+
+
+    public static function resetParties(): void
+    {
+        $adults_files = glob(__DIR__ . '/../../../csv/adulte/*');
+        $kids_files = glob(__DIR__ . '/../../../csv/enfant/*');
+        foreach(array_merge($adults_files, $kids_files) as $file)
+            if (is_file($file))
+                unlink($file);
+    }
 
 
     public function __construct(Request $request, Response $response, array $args)
@@ -32,7 +43,7 @@ class LotoQuest
         $this->_loto_id = $args['loto'] ?? '';
         $this->_partie_id = $args['partie_id'] ?? '';
         $this->_round_id = $args['round_name'] ?? '';
-        $this->_pick_a_random_number = $args['random'] ?? '';
+        $this->_pick_a_random_number = ($args['random'] ?? '') === 'random';
     }
 
 
@@ -78,11 +89,18 @@ class LotoQuest
 
 
     protected function _head(): string {
-        $head = [$this->_tag('link', '', ['href' => '/assets/lotoquest.css',
-                                          'rel' => 'stylesheet']),
-                 $this->_tag('link', '', ['href' => '/assets/bootstrap.min.css',
-                                          'rel' => 'stylesheet']),
-                 $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js'])];
+        $head =
+            [ $this->_tag('meta', '', ['charset' => 'utf-8']),
+              $this->_tag('meta', '',
+                          ['nawe' => 'viewport',
+                           'content' => 'width=device-width, initial-scale=1']),
+              $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
+                                       'rel' => 'stylesheet']),
+              $this->_tag('link', '', ['href' => '/assets/bootstrap.min.css',
+                                       'rel' => 'stylesheet']),
+              $this->_tag('title', 'Loto Quest'),
+              $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js'])
+            ];
         return $this->_tag('head' , implode('', $head));
     }
 
@@ -95,30 +113,179 @@ class LotoQuest
 
 
     protected function _header(): string {
-        $links = [$this->_tag('li', $this->_anchor('/', 'Accueil', ['class' => 'nav-link']), ['class' => 'nav-item'])];
-        $nav = $this->_tag('nav', implode($links), ['class' => 'navbar navbar-nav navbar-expand bg-body-tertiary']);
+        $links = [$this->_tag('li',
+                              $this->_anchor('/', 'Accueil', ['class' => 'nav-link py-1']),
+                              ['class' => 'nav-item'])];
+
+        $loto_ids = SortedDonations::getInstance()->getLotos();
+
+        foreach ($loto_ids as $loto_id)
+            $links [] = $this->_tag('li',
+                                    $this->_anchor('#',
+                                                   'Loto ' . $loto_id,
+                                                   ['class' => 'nav-link py-1 dropdown-toggle',
+                                                    'data-bs-toggle' => 'dropdown',
+                                                    'role' => 'button',
+                                                    'data-toggle' => 'dropdown',
+                                                    'aria-expanded' => 'false'])
+                                    . $this->_dropdownMenu($loto_id),
+                                    ['class' => 'nav-item dropdown']);
+
+        $title =
+            $this->_tag('h1',
+                        sprintf('Loto %s, partie %s, %s',
+                                $this->_loto_id,
+                                str_replace('_', ' ', $this->_partie_id),
+                                str_replace('_', ' ', $this->_round_id)),
+                        ['class' => 'navbar-text py-0 my-0 h3 pe-3']);
+
+        $ul = $this->_tag('ul', implode($links), ['class' => 'navbar-nav mr-auto me-auto']);
+        $nav = $this->_tag('nav', $ul . $title, ['class' => 'navbar navbar-expand bg-body-tertiary p-0']);
         return $this->_tag('header', $nav);
+    }
+
+
+    protected function _dropdownMenu(string $loto_id): string
+    {
+        $parties_links = SortedDonations::getInstance()->getNumberOfPartiesIn($loto_id);
+        $links = [];
+        for ($i = 1; $i <= $parties_links; $i++)
+            $links [] = $this->_tag('li', $this->_anchor($this->_url('/' . $loto_id . '/' . (string) $i, true),
+                                                         'Partie n°' . $i,
+                                                         ['class' => 'dropdown-item']));
+
+        $links [] = $this->_tag('li', $this->_anchor($this->_url('/' . $loto_id . '/gros_lot', true),
+                                                     'Gros lot',
+                                                     ['class' => 'dropdown-item']));
+        $links [] = $this->_tag('li', $this->_anchor($this->_url('/' . $loto_id . '/pas_de_bol', true),
+                                                     'Pas de bol',
+                                                     ['class' => 'dropdown-item']));
+
+        return $this->_tag('ul',
+                           implode($links),
+                           ['class' => 'dropdown-menu']);
     }
 
 
     protected function _main(): string {
         $content = '';
+
+        if ( $this->_partie_id)
+            $content .= $this->_row($this->_showPartieMenu($this->_partie_id));
+
+        $donators = SortedDonations::getInstance()->donators($this->_loto_id,
+                                                             $this->_partie_id,
+                                                             $this->_round_id);
+
+        if ($donators)
+            $content .= $this->_row($this->_wall($donators));
+
+        $html = [];
+        if ( $this->_partie_id && $this->_round_id)
+            $html = array_merge($html,
+                                [$this->_tag('span', $this->_randomNumber(), ['class' => 'badge rounded-pill text-bg-success current_number']),
+                                 $this->_numberTable()]);
+
+        $content .= $this->_row($html);
         if ( $this->_round_id)
-            $content .= $this->_anchor($this->_url('random'), 'Tirer un nombre', ['class' => 'btn btn-lg btn-primary']);
+            $content .= $this->_row($this->_anchor($this->_url('random'), 'Tirer un nombre', ['class' => 'btn btn-lg btn-primary']));
 
-        if ( $this->_pick_a_random_number)
-            $content .= $this->_tag('span', $this->_randomNumber(), ['class' => 'badge rounded-pill text-bg-success current_number'])
-                . $this->_numberTable();
+        return $this->_tag('main',
+                           $this->_tag('div',
+                                       $content,
+                                       ['class' => 'container-fluid text-center h-75']));
+    }
 
-        return $this->_tag('main', $content);
+
+    protected function _row(array|string $html, int $cols = 12): string
+    {
+        if ( ! is_array($html))
+            return
+                $this->_tag('div',
+                            $this->_tag('div',
+                                        $html,
+                                        ['class' => 'col-' . $cols]),
+                            ['class' => 'row m-0 pb-3']);
+
+        $columns = [];
+        foreach($html as $element)
+            $columns [] = $this->_tag('div', $element, ['class' => 'col-6 overflow-hidden']);
+
+        return $this->_tag('div', implode($columns), ['class' => 'row']);
+    }
+
+
+    protected function _wall(array $donations): string
+    {
+        $html = [];
+        foreach($donations as $donation)
+            $html [] = $this->_tag('div',
+                                   $this->_tag('div',
+                                               (($donation[6] ?? '')
+                                                ? $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
+                                                                          'class' => 'card-img-top img-thumbnail img-fluid'])
+                                                : '')
+                                               . $this->_tag('div',
+                                                             $this->_tag('h5', $donation[3] ?? '', ['class' => 'card-title'])
+                                                             . $this->_tag('p', $donation[0] ?? '', ['class' => 'card-text']),
+                                                             ['class' => 'card-body p-1 m-0']),
+                                               ['class' => 'card p-1 m-1 text-bg-warning h-100']),
+                                   ['class' => 'col m-0 p-0 mb-3']);
+
+        return $this->_tag('div',
+                           implode($html),
+                           ['class' => 'row']);
+    }
+
+
+    protected function _carousel(array $donations): string {
+        $html = [];
+        foreach($donations as $donation)
+            $html [] = $this->_tag('div',
+                                   $this->_tag('span', $donation[0] ?? '', ['class' => 'd-block w-100'])
+                                   . (($donation[6] ?? '')
+                                      ? $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
+                                                                'class' => 'd-block w-100'])
+                                      : ''),
+                                   ['class' => 'carousel-item' . (0 == count($html) ? ' active' : '')]);
+
+        return $this->_tag('div',
+                           $this->_tag('div',
+                                       implode($html),
+                                       ['class' => 'carousel-inner']),
+                           ['id' => 'carouselUNIQUE', 
+                            'class' => 'carousel slide carousel-dark',
+                            'data-bs-ride' => 'carousel']);
+    }
+
+
+    protected function _showPartieMenu(string $partie_id): string
+    {
+        $links = [];
+        $rounds = ['quine', 'double_quine', 'carton'];
+
+        if ( $partie_id == 'gros_lot' || $partie_id == 'pas_de_bol')
+            $rounds = ['carton'];
+
+        foreach($rounds as $round_name)
+            $links [] = $this->_tag('li', $this->_anchor($this->_url(sprintf('/%s/%s/%s',
+                                                                             $this->_loto_id,
+                                                                             $this->_partie_id,
+                                                                             $round_name), true),
+                                                         $round_name,
+                                                         ['class' => 'nav-link']),
+                                    ['class' => 'nav-item']);
+        return $this->_tag('ul',
+                           implode($links),
+                           ['class' => 'nav']);
     }
 
 
     protected function _randomNumber(): string {
-        if ( !$random = $this->_request->getQueryParams()['random'] ?? null)
+        if ( $this->_isMemoryFull())
             return '';
 
-        if ( $this->_isMemoryFull())
+        if ( ! $this->_pick_a_random_number)
             return '';
 
         $this->_random_number = rand(1, 90);
@@ -137,7 +304,10 @@ class LotoQuest
         if ($this->_isNumberInMemory($this->_random_number))
             return false;
 
-        $fp = fopen(__DIR__ . '/../../../csv/adults/1.csv', 'a');
+        $fp = fopen(sprintf('%s/../../../csv/%s/%s.csv',
+                            __DIR__,
+                            $this->_loto_id,
+                            $this->_partie_id), 'a');
         fputcsv($fp, [$this->_random_number]);
         fclose($fp);
         return true;
@@ -160,7 +330,12 @@ class LotoQuest
         for ($row = 1 ; $row <= 9 ; $row ++)
             $all_tr [] = $this->_tag('tr', $this->_numberTableTd());
 
-        return $this->_tag('table', implode($all_tr), ['class' => 'table table-info text-center']);
+        return
+            $this->_tag('div',
+                        $this->_tag('div',
+                                    $this->_tag('table', implode($all_tr), ['class' => 'table table-bordered table-info text-center']),
+                                    ['class' => 'col-10']),
+                           ['class' => 'row']);
     }
 
 
@@ -181,7 +356,7 @@ class LotoQuest
 
     protected function _isNumberVisible(): bool {
         if ($this->_number_table_counter === $this->_random_number)
-                return true;
+            return true;
 
         if ( $this->_isNumberInMemory($this->_number_table_counter))
             return true;
@@ -191,7 +366,14 @@ class LotoQuest
 
 
     protected function _footer(): string {
-        return $this->_tag('footer', '');
+        $html = [];
+        if (!$this->_loto_id)
+            $html [] = $this->_anchor('/reset',
+                                      'Réinitialiser les tirages',
+                                      ['onclick' => 'return confirm(\'Êtes-vous sûr ?\');',
+                                       'class' => 'btn btn-sm btn-danger']);
+
+        return $this->_tag('footer', $this->_row(implode($html)), ['class' => 'text-center']);
     }
 
 
@@ -227,12 +409,12 @@ class LotoQuest
 
         $new_url = [];
         foreach (array_filter([$this->_loto_id,
-                                $this->_partie_id,
+                               $this->_partie_id,
                                $this->_round_id,
                                $url])
-            as $id)
+                 as $id)
             $new_url []= $id;
 
-        return '/' . implode('/', $new_url);
+        return '/' . implode('/', array_unique($new_url));
     }
 }
