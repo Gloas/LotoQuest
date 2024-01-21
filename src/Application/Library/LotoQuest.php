@@ -193,7 +193,7 @@ class LotoQuest
         return $this->_tag('main',
                            $this->_tag('div',
                                        $content,
-                                       ['class' => 'container-fluid text-center h-75']));
+                                       ['class' => 'container-fluid text-center p-0 m-0']));
     }
 
 
@@ -204,7 +204,7 @@ class LotoQuest
                 $this->_tag('div',
                             $this->_tag('div',
                                         $html,
-                                        ['class' => 'col-' . $cols]),
+                                        ['class' => 'p-0 col-' . $cols]),
                             ['class' => 'row m-0 pb-3']);
 
         $columns = [];
@@ -272,12 +272,12 @@ class LotoQuest
                                                                              $this->_loto_id,
                                                                              $this->_partie_id,
                                                                              $round_name), true),
-                                                         $round_name,
-                                                         ['class' => 'nav-link']),
+                                                         ucfirst(str_replace('_', ' ', $round_name)),
+                                                         ['class' => 'nav-link py-1 px-2']),
                                     ['class' => 'nav-item']);
         return $this->_tag('ul',
                            implode($links),
-                           ['class' => 'nav']);
+                           ['class' => 'nav justify-content-center']);
     }
 
 

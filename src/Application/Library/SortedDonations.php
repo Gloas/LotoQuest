@@ -34,7 +34,7 @@ class SortedDonations
 
         foreach($this->_sorted_donations_array as $row)
         {
-            if ( !$row_as_string = strtolower((string) reset($row)))
+            if ( !$row_as_string = trim(strtolower((string) reset($row))))
                 continue;
 
             if ( ! $in_loto && $this->_isForLoto($row_as_string, $loto_id))
