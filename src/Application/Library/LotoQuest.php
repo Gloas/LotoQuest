@@ -94,9 +94,9 @@ class LotoQuest
               $this->_tag('meta', '',
                           ['nawe' => 'viewport',
                            'content' => 'width=device-width, initial-scale=1']),
-              $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
-                                       'rel' => 'stylesheet']),
               $this->_tag('link', '', ['href' => '/assets/bootstrap.min.css',
+                                       'rel' => 'stylesheet']),
+              $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
                                        'rel' => 'stylesheet']),
               $this->_tag('title', 'Loto Quest'),
               $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js'])
@@ -183,7 +183,7 @@ class LotoQuest
         $html = [];
         if ( $this->_partie_id && $this->_round_id)
             $html = array_merge($html,
-                                [$this->_tag('span', $this->_randomNumber(), ['class' => 'badge rounded-pill text-bg-success current_number']),
+                                [$this->_tag('span', $this->_randomNumber(), ['class' => 'badge rounded-pill text-bg-info current_number']),
                                  $this->_numberTable()]);
 
         $content .= $this->_row($html);
@@ -229,12 +229,12 @@ class LotoQuest
                                                              $this->_tag('h5', $donation[3] ?? '', ['class' => 'card-title'])
                                                              . $this->_tag('p', $donation[0] ?? '', ['class' => 'card-text']),
                                                              ['class' => 'card-body p-1 m-0']),
-                                               ['class' => 'card p-1 m-1 text-bg-warning h-100']),
-                                   ['class' => 'col m-0 p-0 mb-3']);
+                                               ['class' => 'card p-1 m-1 text-bg-info h-100']),
+                                   ['class' => 'col-1 px-0 pb-3']);
 
         return $this->_tag('div',
                            implode($html),
-                           ['class' => 'row']);
+                           ['class' => 'row justify-content-center']);
     }
 
 
@@ -344,9 +344,9 @@ class LotoQuest
         for ($col = 1; $col <= 10; $col ++) {
             $all_td [] = $this->_tag('td',
                                      (string) $this->_number_table_counter,
-                                     $this->_isNumberVisible()
-                                     ? []
-                                     : ['style' => 'visibility:hidden']);
+                                     ['class' => 'fs-2' . ($this->_isNumberVisible()
+                                                       ? ''
+                                                       : ' invisible')]);
             $this->_number_table_counter++;
         }
 

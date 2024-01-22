@@ -1,5 +1,5 @@
 .badge.current_number {
-    font-size: 12em;
+    font-size: 20em;
 }
 
 .card img.card-img-top {
@@ -10,4 +10,8 @@
 
 .card {
     width: 200px;
+}
+
+.col-1 {
+    width: auto;
 }
