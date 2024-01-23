@@ -1,5 +1,7 @@
-.badge.current_number {
-    font-size: 20em;
+.current_number {
+    font-size: 22em;
+    line-height: unset;
+    min-width: 80%;
 }
 
 .card img.card-img-top {
@@ -14,4 +16,25 @@
 
 .col-1 {
     width: auto;
+}
+
+main {
+    min-height: 90%;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+.dropdown-menu.show,
+.play,
+nav,
+.table,
+.current_number,
+.card {
+    box-shadow: 3px 3px 3px grey;
+}
+
+.navbar-brand img {
+    height: 28px;
 }

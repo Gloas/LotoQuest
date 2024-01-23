@@ -27,6 +27,35 @@ class SortedDonations
 
     public function donators(string $loto_id = '', string $partie_id = '', string $round_id = ''): array
     {
+
+        $donations = $this->_donations($loto_id, $partie_id, $round_id);
+
+        if ( ! $loto_id)
+            $donations = $this->_uniqueDonators($donations);
+
+        usort($donations, fn($donation_a, $donation_b) => strcasecmp($donation_a[0]??'', $donation_b[0]??''));
+        return $donations;
+    }
+
+
+    protected function _uniqueDonators(array $donations): array
+    {
+        $unique = [];
+        foreach($donations as $donation) {
+            if ( ! $donation[6] ?? '')
+                continue;
+
+            $key = trim(strtolower($donation[6] ?? ''));
+            if ( ! isset($unique[$key]))
+                $unique [$key] = $donation;
+        }
+
+        return $unique;
+    }
+
+
+    protected function _donations(string $loto_id = '', string $partie_id = '', string $round_id = ''): array
+    {
         $imgs = [];
         $in_loto = false;
         $in_partie = false;
@@ -43,7 +72,7 @@ class SortedDonations
                 continue;
             }
 
-            if ( $this->_isForPartie($row_as_string, $loto_id, $partie_id, $in_loto))
+            if ( ! $in_partie && $this->_isForPartie($row_as_string, $loto_id, $partie_id, $in_loto))
             {
                 $in_partie = true;
                 continue;
@@ -63,7 +92,7 @@ class SortedDonations
                 continue;
             }
 
-            if ( $in_loto && $in_partie && $this->_isNotForNextRound($row_as_string))
+            if ( $loto_id && $in_loto && $in_partie && $this->_isNotForNextRound($row_as_string))
                 return $imgs;
 
             if ( $in_loto && $in_partie && !$round_id && ($row[4] ?? ''))
@@ -98,6 +127,9 @@ class SortedDonations
 
     protected function _isForPartie(string $row_as_string, string $loto_id, string $partie_id, bool $in_partie): bool
     {
+        if (!$partie_id)
+            return true;
+
         if (!$in_partie)
             return false;
 
@@ -110,6 +142,9 @@ class SortedDonations
 
     protected function _isForLoto(string $row_as_string, string $loto_id): bool
     {
+        if ( !$loto_id)
+            return true;
+
         return 0 === strpos($row_as_string, strtolower('parties ' . $loto_id));
     }
 

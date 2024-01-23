@@ -48,7 +48,7 @@ class HomeActionTest extends LotoQuestTestCase
 
     public function testAnchorTirerUnNombreIsInBody()
     {
-        $this->_dispatch('/kids/3/double_quine');
+        $this->_dispatch('/enfant/3/double_quine');
         $this->assertStringContainsString('Tirer un nombre', $this->_body);
     }
 

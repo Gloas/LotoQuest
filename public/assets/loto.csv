@@ -352,7 +352,7 @@ Carton
 
 "Gros lot"
 Carton
-"APE de Valleiry",Ines,"3 550,00 €","Vélo électrique",Adulte,Non,https://scontent-cdg4-1.xx.fbcdn.net/v/t39.30808-6/275080000_2122575931232699_8825952358223865091_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=oUR1GfE_tdEAX8K_h52&_nc_ht=scontent-cdg4-1.xx&oh=00_AfDH-BiobH6BEcbrXQPgNqriiy_k2X3N5MdOckhPU2Q4kQ&oe=65B164A7,"800,00 €",77%,05/01/2024,"En attente",,,"attente réception colis"
+"APE de Valleiry et VELOMANIA",Ines,"3 540,00 €","Vélo électrique",Adulte,Non,https://scontent-cdg4-1.xx.fbcdn.net/v/t39.30808-6/275080000_2122575931232699_8825952358223865091_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=oUR1GfE_tdEAX8K_h52&_nc_ht=scontent-cdg4-1.xx&oh=00_AfDH-BiobH6BEcbrXQPgNqriiy_k2X3N5MdOckhPU2Q4kQ&oe=65B164A7,"800,00 €",77%,05/01/2024,"En attente",,,"attente réception colis"
 "Mise de",,=SUM(INDIRECT(ADDRESS(ROW()-1;COLUMN())):INDIRECT(ADDRESS(ROW()-1;COLUMN()))),"/ 1000€ pour cette manche"
 
 "Pas de bol"
