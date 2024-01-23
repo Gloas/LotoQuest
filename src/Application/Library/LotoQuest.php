@@ -97,10 +97,7 @@ class LotoQuest
                                        'rel' => 'stylesheet']),
               $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
                                        'rel' => 'stylesheet']),
-              $this->_tag('title', 'Loto Quest'),
-              $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js']),
-              $this->_tag('script', '', ['src' => '/assets/masonry.pkgd.min.js'])
-            ];
+              $this->_tag('title', 'Loto Quest')];
         return $this->_tag('head' , implode('', $head));
     }
 
@@ -118,6 +115,8 @@ class LotoQuest
         $links = [];
 
         $loto_ids = SortedDonations::getInstance()->getLotos();
+
+        rsort($loto_ids);
 
         foreach ($loto_ids as $loto_id)
             $links [] = $this->_tag('li',
@@ -301,11 +300,11 @@ class LotoQuest
                                                $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
                                                                        'class' => 'card-img']),
                                                ['class' => 'card']),
-                                   ['class' => 'col-sm-6 col-lg-1 m-0 p-1']);
+                                   ['class' => 'col-lg-2 mb-4']);
 
         return $this->_tag('div',
                            implode($html),
-                           ['class' => 'row m-0 p-0',
+                           ['class' => 'row mx-0 masonry',
                             'data-masonry' => htmlspecialchars('{"percentPosition": true}')]);
     }
 
@@ -453,7 +452,8 @@ class LotoQuest
     }
 
 
-    protected function _isNumberVisible(): bool {
+    protected function _isNumberVisible(): bool
+    {
         if ($this->_number_table_counter === $this->_random_number)
             return true;
 
@@ -464,7 +464,8 @@ class LotoQuest
     }
 
 
-    protected function _footer(): string {
+    protected function _footer(): string
+    {
         $html = [];
         if (!$this->_loto_id)
             $html [] = $this->_anchor('/reset',
@@ -472,6 +473,8 @@ class LotoQuest
                                       ['onclick' => 'return confirm(\'Êtes-vous sûr ?\');',
                                        'class' => 'btn btn-sm btn-danger']);
 
+        $html [] = $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js']);
+        $html [] = $this->_tag('script', '', ['src' => '/assets/masonry.pkgd.min.js']);
         return $this->_tag('footer', $this->_row(implode($html)), ['class' => 'text-center']);
     }
 

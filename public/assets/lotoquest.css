@@ -14,6 +14,10 @@
     width: 200px;
 }
 
+.masonry .card {
+    width: auto;
+}
+
 .col-1 {
     width: auto;
 }
