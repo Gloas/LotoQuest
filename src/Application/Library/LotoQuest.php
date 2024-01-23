@@ -299,7 +299,7 @@ class LotoQuest
                                    $this->_tag('div',
                                                $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
                                                                        'class' => 'card-img']),
-                                               ['class' => 'card']),
+                                               ['class' => 'card p-2 bg-transparent border-0']),
                                    ['class' => 'col-lg-2 mb-4']);
 
         return $this->_tag('div',

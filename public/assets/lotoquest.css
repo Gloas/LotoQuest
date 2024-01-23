@@ -39,6 +39,11 @@ nav,
     box-shadow: 3px 3px 3px grey;
 }
 
+.masonry .card {
+    box-shadow: unset;
+    
+}
+
 .navbar-brand img {
     height: 28px;
 }
