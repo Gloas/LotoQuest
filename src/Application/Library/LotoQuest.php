@@ -133,29 +133,40 @@ class LotoQuest
 
         $title = '';
         if ( $this->_partie_id)
-            $title =
-                $this->_tag('h1',
+            $title = $this->_tag('h1',
                             sprintf('Loto %s, partie %s %s',
                                     $this->_loto_id,
                                     str_replace('_', ' ', $this->_partie_id),
                                     str_replace('_', ' ', $this->_round_id)),
-                            ['class' => 'col navbar-text py-1 my-1 h6 pe-3 text-end']);
+                            ['class' => 'navbar-text py-1 my-1 h6 pe-3 text-center text-lg-end']);
 
-        $brand = $this->_tag('div',
-                             $this->_anchor('/', $this->_tag('img',
-                                                             '',
-                                                             ['src' => 'https://www.ape-valleiry.fr/wp-content/uploads/2017/09/logo_transparent-300x223.png',
-                                                             'class' => 'mr-1'])
-                                            . 'Accueil', ['class' => 'navbar-brand btn btn-info']),
-                             ['class' => '']);
+        $brand =$this->_anchor('/', $this->_tag('img',
+                                                '',
+                                                ['src' => 'https://www.ape-valleiry.fr/wp-content/uploads/2017/09/logo_transparent-300x223.png',
+                                                 'class' => 'mr-1'])
+                               . 'Accueil', ['class' => 'navbar-brand btn btn-info']);
 
-        $ul = $this->_tag('ul', implode($links), ['class' => 'col navbar-nav me-auto']);
+        $ul = $this->_tag('ul', implode($links), ['class' => 'nav']);
+
+        $rounds_menu = '';
+        if ( $this->_partie_id)
+            $rounds_menu = implode($this->_showRoundsMenu($this->_partie_id));
+
+        $nav_content = $this->_tag('div',
+                                   $this->_tag('div', $brand,
+                                               ['class' => 'col-6 col-lg-2 order-1'])
+                                   . $this->_tag('div', $ul,
+                                                 ['class' => 'col-6 col-lg-3 order-3 order-lg-2'])
+                                   . $this->_tag('div', $rounds_menu,
+                                                 ['class' => 'col-6 col-lg-4 order-4 text-dark btn-group justify-content-center'])
+                                   . $this->_tag('div' , $title,
+                                                ['class' => 'col-6 col-lg-3 navbar-text py-1 my-1 h6 pe-lg-3 text-center text-lg-end order-2 order-lg-4']),
+                                   ['class' => 'container-fluid p-0']);
+
         $nav = $this->_tag('nav',
-                           $brand
-                           . $ul
-                           . ($this->_partie_id ? $this->_showPartieMenu($this->_partie_id) : '')
-                           . $title,
-                           ['class' => 'navbar navbar-expand bg-info p-0 mb-3']);
+                           $nav_content,
+                           ['class' => 'navbar navbar-expand-lg bg-info p-0 mb-3']);
+
         return $this->_tag('header', $nav);
     }
 
@@ -169,22 +180,22 @@ class LotoQuest
             $url = '/' . $loto_id . '/' . (string) $i;
             $links [] = $this->_tag('li', $this->_anchor($this->_url($url, true),
                                                          'Partie n°' . $i,
-                                                         ['class' => 'dropdown-item btn btn-info' . $this->_active($url)]));
+                                                         ['class' => 'dropdown-item' . $this->_active($url)]));
         }
 
         $gros_lot_url = '/' . $loto_id . '/gros_lot';
         $links [] = $this->_tag('li', $this->_anchor($this->_url($gros_lot_url, true),
                                                      'Gros lot',
-                                                     ['class' => 'dropdown-item btn btn-info' . $this->_active($gros_lot_url)]));
+                                                     ['class' => 'dropdown-item' . $this->_active($gros_lot_url)]));
 
         $pas_de_bol_url = '/' . $loto_id . '/pas_de_bol';
         $links [] = $this->_tag('li', $this->_anchor($this->_url($pas_de_bol_url, true),
                                                      'Pas de bol',
-                                                     ['class' => 'dropdown-item btn btn-info'. $this->_active($pas_de_bol_url)]));
+                                                     ['class' => 'dropdown-item'. $this->_active($pas_de_bol_url)]));
 
         return $this->_tag('ul',
                            implode($links),
-                           ['class' => 'dropdown-menu bg-info border-info-subtle']);
+                           ['class' => 'dropdown-menu border-info-subtle']);
     }
 
 
@@ -297,7 +308,8 @@ class LotoQuest
         foreach($donations as $donation)
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
-                                               $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
+                                               $this->_tag('img', '', ['src' => $donation[6] ?? '',
+                                                                       'alt' => $donation[0] ?? '',
                                                                        'class' => 'card-img']),
                                                ['class' => 'card p-2 bg-transparent border-0']),
                                    ['class' => 'col-lg-2 mb-4']);
@@ -339,7 +351,7 @@ class LotoQuest
     }
 
 
-    protected function _showPartieMenu(string $partie_id): string
+    protected function _showRoundsMenu(string $partie_id): array
     {
         $links = [];
         $rounds = ['quine', 'double_quine', 'carton'];
@@ -357,9 +369,8 @@ class LotoQuest
                                        ucfirst(str_replace('_', ' ', $round_name)),
                                        ['class' => 'btn btn-info' . $this->_active($url)]);
         }
-        return $this->_tag('div',
-                           implode($links),
-                           ['class' => 'col btn-group justify-content-center']);
+
+        return $links;
     }
 
 
@@ -442,7 +453,7 @@ class LotoQuest
         for ($col = 1; $col <= 10; $col ++) {
             $all_td [] = $this->_tag('td',
                                      (string) $this->_number_table_counter,
-                                     ['class' => 'fs-2' . ($this->_isNumberVisible()
+                                     ['class' => ($this->_isNumberVisible()
                                                        ? ''
                                                        : ' invisible')]);
             $this->_number_table_counter++;
