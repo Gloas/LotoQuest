@@ -28,8 +28,13 @@ return function (App $app) {
         $group->get('/{id}', ViewUserAction::class);
     });
 
+    $app->get('/outro', function (Request $request, Response $response) {
+        $home = (new ViewHomeAction)->outro();
+        return $home($request, $response);
+    });
+
     $app->get('/reset', function (Request $request, Response $response) {
-        $home = (new ViewHomeAction)->reset();
+        $home = (new ViewHomeAction)->reset($request);
         return $home($request, $response);
     });
 

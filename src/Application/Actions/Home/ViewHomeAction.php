@@ -36,9 +36,9 @@ class ViewHomeAction
     }
 
 
-    public function reset(): static
+    public function reset(Request $request): static
     {
-        LotoQuest::resetParties();
+        LotoQuest::resetParties($request);
         return $this;
     }
 }

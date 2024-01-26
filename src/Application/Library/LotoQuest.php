@@ -25,12 +25,15 @@ class LotoQuest
     protected bool $_pick_a_random_number;
 
 
-    public static function resetParties(): void
+    public static function resetParties(Request $request): void
     {
+        $cookies = $request->getCookieParams();
+        $cookie_id = reset($cookies);
+
         $adults_files = glob(__DIR__ . '/../../../csv/adulte/*');
         $kids_files = glob(__DIR__ . '/../../../csv/enfant/*');
         foreach(array_merge($adults_files, $kids_files) as $file)
-            if (is_file($file) && (false !== strpos($file, session_id())))
+            if (is_file($file) && (false !== strpos($file, $cookie_id)))
                 unlink($file);
     }
 
@@ -71,7 +74,7 @@ class LotoQuest
         $this->_memory_file = __DIR__ . '/../../../csv/'
             . $this->_loto_id
             . '/'
-            . session_id() . '_' . $this->_partie_id
+            . $this->_cookieId() . '_' . $this->_partie_id
             . '.csv';
 
         if ( !file_exists($this->_memory_file))
@@ -109,9 +112,17 @@ class LotoQuest
                            implode([$this->_header(),
                                     $this->_main(),
                                     $this->_footer()]),
-                           ['class' => 'bg-info-subtle ' . implode(' ', array_filter([$this->_loto_id,
+                           ['data-session' => $this->_cookieId(),
+                            'class' => 'bg-info-subtle ' . implode(' ', array_filter([$this->_loto_id,
                                                                                       $this->_partie_id,
                                                                                       $this->_round_id]))]);
+    }
+
+
+    protected function _cookieId(): string
+    {
+        $cookies = $this->_request->getCookieParams();
+        return reset($cookies);
     }
 
 
@@ -465,7 +476,7 @@ var timerInterval = setInterval(startTimer, 1000);
         $fp = fopen(sprintf('%s/../../../csv/%s/%s.csv',
                             __DIR__,
                             $this->_loto_id,
-                            session_id() . '_' . $this->_partie_id), 'a');
+                            $this->_cookieId() . '_' . $this->_partie_id), 'a');
         fputcsv($fp, [$this->_random_number]);
         fclose($fp);
 

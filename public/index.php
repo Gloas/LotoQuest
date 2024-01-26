@@ -69,6 +69,10 @@ register_shutdown_function($shutdownHandler);
 // Add Routing Middleware
 $app->addRoutingMiddleware();
 
+$app->add(new \RKA\SessionMiddleware(['name' => 'lotoquest_session',
+                                      'lifetime' => 9999999,
+                                      'id' => uniqid()]));
+
 // Add Body Parsing Middleware
 $app->addBodyParsingMiddleware();
 
