@@ -30,7 +30,7 @@ class LotoQuest
         $adults_files = glob(__DIR__ . '/../../../csv/adulte/*');
         $kids_files = glob(__DIR__ . '/../../../csv/enfant/*');
         foreach(array_merge($adults_files, $kids_files) as $file)
-            if (is_file($file))
+            if (is_file($file) && (false !== strpos($file, session_id())))
                 unlink($file);
     }
 
@@ -71,7 +71,7 @@ class LotoQuest
         $this->_memory_file = __DIR__ . '/../../../csv/'
             . $this->_loto_id
             . '/'
-            . $this->_partie_id
+            . session_id() . '_' . $this->_partie_id
             . '.csv';
 
         if ( !file_exists($this->_memory_file))
@@ -465,7 +465,7 @@ var timerInterval = setInterval(startTimer, 1000);
         $fp = fopen(sprintf('%s/../../../csv/%s/%s.csv',
                             __DIR__,
                             $this->_loto_id,
-                            $this->_partie_id), 'a');
+                            session_id() . '_' . $this->_partie_id), 'a');
         fputcsv($fp, [$this->_random_number]);
         fclose($fp);
 
