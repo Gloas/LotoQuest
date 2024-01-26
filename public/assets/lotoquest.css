@@ -101,11 +101,13 @@ h1.thanks_title {
     font-size: 3vw;
 }
 
-.adulte.gros_lot .card {
+.pas_de_bol .card,
+.gros_lot .card {
     width: 35vw;
 }
 
-.adulte.gros_lot img.card-img-top {
+.pas_de_bol img.card-img-top,
+.gros_lot img.card-img-top {
     max-height: 100%;
     margin: auto;
     max-width: fit-content;

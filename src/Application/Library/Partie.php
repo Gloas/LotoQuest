@@ -17,6 +17,21 @@ class Partie
     }
 
 
+    public function getFirstRound(): string
+    {
+        if ((int) $this->getId() == $this->getId())
+            return '/quine';
+
+        if (0 === strpos($this->getId(), 'entracte'))
+            return '';
+
+        if (0 === strpos($this->getId(), 'outro'))
+            return '';
+
+        return '/carton';
+    }
+
+
     protected function _extractId(): string
     {
         $id = strtolower(trim($this->_params[0]));

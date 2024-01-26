@@ -199,7 +199,7 @@ class LotoQuest
         {
             $partie = new Partie($partie_array);
             $url = '/' . $loto_id . '/' . $partie->getId();
-            $links [] = $this->_tag('li', $this->_anchor($this->_url($url, true),
+            $links [] = $this->_tag('li', $this->_anchor($this->_url($url . $partie->getFirstRound(), true),
                                                          ucfirst($partie->getAnchorLabel()),
                                                          ['class' => 'dropdown-item' . $this->_active($url)]));
         }
