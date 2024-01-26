@@ -104,7 +104,10 @@ class LotoQuest
                                        'rel' => 'stylesheet']),
               $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
                                        'rel' => 'stylesheet']),
-              $this->_tag('title', 'Loto Quest')];
+              $this->_tag('title', 'Loto Quest ' . implode(' ',
+                                                           array_filter([$this->_loto_id,
+                                                                         $this->_partie_id,
+                                                                         $this->_round_id])))];
         return $this->_tag('head' , implode('', $head));
     }
 
@@ -158,10 +161,10 @@ class LotoQuest
                                  ['class' => 'navbar-text py-1 my-1 h6 pe-3 text-dark text-center text-lg-end']);
 
         $brand = $this->_anchor('/', $this->_tag('img',
-                                                '',
-                                                ['src' => 'https://www.ape-valleiry.fr/wp-content/uploads/2017/09/logo_transparent-300x223.png',
-                                                 'class' => 'mr-1'])
-                               . 'Accueil', ['class' => 'navbar-brand btn btn-info']);
+                                                 '',
+                                                 ['src' => 'https://www.ape-valleiry.fr/wp-content/uploads/2017/09/logo_transparent-300x223.png',
+                                                  'class' => 'mr-1'])
+                                . 'Accueil', ['class' => 'navbar-brand btn btn-info']);
 
         $ul = $this->_tag('ul', implode($links), ['class' => 'nav']);
 
@@ -177,7 +180,7 @@ class LotoQuest
                                    . $this->_tag('div', $rounds_menu,
                                                  ['class' => 'col-6 col-lg-4 order-4 text-dark btn-group justify-content-center'])
                                    . $this->_tag('div' , $title,
-                                                ['class' => 'col-6 col-lg-3 navbar-text py-1 my-1 h6 pe-lg-3 text-center text-lg-end order-2 order-lg-4']),
+                                                 ['class' => 'col-6 col-lg-3 navbar-text py-1 my-1 h6 pe-lg-3 text-center text-lg-end order-2 order-lg-4']),
                                    ['class' => 'container-fluid p-0']);
 
         $nav = $this->_tag('nav',
@@ -224,7 +227,7 @@ class LotoQuest
         if ($donators && $this->_loto_id && ! $this->_entracte)
             $content .= $this->_row($this->_wall($donators));
 
-        if ( 'surprise' == $this->_partie_id && $this->_round_id)
+        if ( (0 === strpos($this->_partie_id, 'surprise')) && $this->_round_id)
             $content .=
                 $this->_row($this->_anchor('#',
                                            'Voir les lots ?',
@@ -446,7 +449,8 @@ var timerInterval = setInterval(startTimer, 1000);
 
         if ( in_array($partie_id, ['gros_lot',
                                    'pas_de_bol',
-                                   'surprise']))
+                                   'surprise_bleu',
+                                   'surprise_rouge']))
             $rounds = ['carton'];
 
 
@@ -536,7 +540,7 @@ var timerInterval = setInterval(startTimer, 1000);
                         $this->_tag('div',
                                     $this->_tag('table', implode($all_tr), ['class' => 'table table-bordered table-info text-center']),
                                     ['class' => 'col-10']),
-                           ['class' => 'row mx-0']);
+                        ['class' => 'row mx-0']);
     }
 
 
@@ -546,8 +550,8 @@ var timerInterval = setInterval(startTimer, 1000);
             $all_td [] = $this->_tag('td',
                                      (string) $this->_number_table_counter,
                                      ['class' => 'p-0' . ($this->_isNumberVisible()
-                                                       ? ''
-                                                       : ' invisible')]);
+                                                          ? ''
+                                                          : ' invisible')]);
             $this->_number_table_counter++;
         }
 

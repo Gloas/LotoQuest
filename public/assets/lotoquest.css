@@ -85,11 +85,11 @@ nav,
     height: 28px;
 }
 
-.surprise .donators_row {
+[class*="surprise"] .donators_row {
     visibility: hidden;
 }
 
-.surprise .reveal {
+[class*="surprise"] .reveal {
     margin-top: -200px;
 }
 
