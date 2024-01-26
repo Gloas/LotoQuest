@@ -98,4 +98,11 @@ class HomeActionTest extends LotoQuestTestCase
         $this->_dispatch('/adulte/entracte_10_minutes_prix_3');
         $this->assertStringContainsString('Loto', $this->_body);
     }
+
+
+    public function testWithOutroShouldShowDonatorsPng()
+    {
+        $this->_dispatch('/outro');
+        $this->assertStringContainsString('Loto', $this->_body);
+    }
 }

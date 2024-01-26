@@ -23,12 +23,13 @@ class LotoQuest
     protected string $_entracte;
     protected string $_round_id;
     protected bool $_pick_a_random_number;
+    protected bool $_outro;
 
 
     public static function resetParties(Request $request): void
     {
         $cookies = $request->getCookieParams();
-        $cookie_id = reset($cookies);
+        $cookie_id = (string) reset($cookies);
 
         $adults_files = glob(__DIR__ . '/../../../csv/adulte/*');
         $kids_files = glob(__DIR__ . '/../../../csv/enfant/*');
@@ -48,6 +49,7 @@ class LotoQuest
         $this->_round_id = $args['round_name'] ?? '';
         $this->_pick_a_random_number = ($args['random'] ?? '') === 'random';
         $this->_entracte = (0 === strpos($this->_partie_id, 'entracte')) ? $this->_partie_id : '';
+        $this->_outro = $args['outro'] ?? false;
     }
 
 
@@ -122,7 +124,7 @@ class LotoQuest
     protected function _cookieId(): string
     {
         $cookies = $this->_request->getCookieParams();
-        return reset($cookies);
+        return (string) reset($cookies);
     }
 
 
@@ -193,11 +195,15 @@ class LotoQuest
         foreach ( $parties_row as $partie_array)
         {
             $partie = new Partie($partie_array);
-            $url = '/' . $loto_id . '/' . $partie->getId(); //'/gros_lot'  /pas_de_bol'
+            $url = '/' . $loto_id . '/' . $partie->getId();
             $links [] = $this->_tag('li', $this->_anchor($this->_url($url, true),
-                                                         $partie->getAnchorLabel(), //'Partie n°' . ';
+                                                         ucfirst($partie->getAnchorLabel()),
                                                          ['class' => 'dropdown-item' . $this->_active($url)]));
         }
+
+        $links [] = $this->_tag('li', $this->_anchor($this->_url('/outro', true),
+                                                     'Outro',
+                                                     ['class' => 'dropdown-item' . $this->_active('/outro')]));
 
         return $this->_tag('ul',
                            implode($links),
@@ -207,6 +213,9 @@ class LotoQuest
 
     protected function _main(): string {
         $content = '';
+
+        if ( $this->_outro)
+            return $this->_outro();
 
         $donators = SortedDonations::getInstance()->donators($this->_loto_id,
                                                              $this->_partie_id,
@@ -246,6 +255,21 @@ new Masonry(ul);
                                                    'Tirer un nombre',
                                                    ['class' => 'btn btn-lg btn-info play']));
 
+        return $this->_tag('main',
+                           $this->_tag('div',
+                                       $content,
+                                       ['class' => 'container-fluid text-center p-0 m-0']));
+    }
+
+
+    protected function _outro(): string
+    {
+        $content = $this->_tag('row', $this->_tag('h1', 'Merci à tous !', ['class' => 'thanks_title']));
+
+        $imgs = $this->_tag('div', $this->_img('/assets/thanks_donators.png', ['class' => 'img-fluid px-1 pb-0 ']), ['class' => 'col-6'])
+            . $this->_tag('div', $this->_img('/assets/thanks_volunteers.png', ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-6']);
+
+        $content .= $this->_tag('div', $imgs, ['class' => 'row m-0']);
         return $this->_tag('main',
                            $this->_tag('div',
                                        $content,
@@ -546,7 +570,7 @@ var timerInterval = setInterval(startTimer, 1000);
     protected function _footer(): string
     {
         $html = [];
-        if (!$this->_loto_id)
+        if (!$this->_loto_id && ! $this->_outro)
             $html [] = $this->_anchor('/reset',
                                       'Réinitialiser les tirages',
                                       ['onclick' => 'return confirm(\'Êtes-vous sûr ?\');',

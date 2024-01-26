@@ -17,6 +17,7 @@ class ViewHomeAction
     protected int $_number_table_counter = 1;
     protected int $_random_number = 0;
     protected array $_number_table_in_memory;
+    protected bool $_outro = false;
 
 
     public function __invoke(Request $request, Response $response, array $args = []): Response
@@ -24,6 +25,9 @@ class ViewHomeAction
         $this->_request = $request;
         $this->_response = $response;
         $this->_args = $args;
+
+        if ( $this->_outro)
+            $this->_args['outro'] = true;
 
         return $this->_action();
     }
@@ -39,6 +43,13 @@ class ViewHomeAction
     public function reset(Request $request): static
     {
         LotoQuest::resetParties($request);
+        return $this;
+    }
+
+
+    public function outro(): static
+    {
+        $this->_outro = true;
         return $this;
     }
 }
