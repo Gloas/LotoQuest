@@ -30,6 +30,7 @@ class HomeActionTest extends LotoQuestTestCase
 
     public function setUp(): void {
         parent::setUp();
+
         $this->_dispatch('/');
     }
 
@@ -88,6 +89,13 @@ class HomeActionTest extends LotoQuestTestCase
     public function testWithResetParamShouldReset()
     {
         $this->_dispatch('/reset');
+        $this->assertStringContainsString('Loto', $this->_body);
+    }
+
+
+    public function testWithEntracteShouldShowDonators()
+    {
+        $this->_dispatch('/adulte/entracte_10_minutes_prix_3');
         $this->assertStringContainsString('Loto', $this->_body);
     }
 }

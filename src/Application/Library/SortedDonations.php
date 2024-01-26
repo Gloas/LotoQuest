@@ -30,7 +30,7 @@ class SortedDonations
 
         $donations = $this->_donations($loto_id, $partie_id, $round_id);
 
-        if ( ! $loto_id)
+        if ( ! $loto_id || 0 === strpos($partie_id, 'entracte'))
             $donations = $this->_uniqueDonators($donations);
 
         usort($donations, fn($donation_a, $donation_b) => strcasecmp($donation_a[0]??'', $donation_b[0]??''));
@@ -60,6 +60,12 @@ class SortedDonations
         $in_loto = false;
         $in_partie = false;
         $in_round = false;
+        $in_entracte = false;
+
+        if ( 0 === strpos($partie_id, 'entracte')) {
+            $in_entracte = true;
+            $partie_id = '';
+        }
 
         foreach($this->_sorted_donations_array as $row)
         {
@@ -92,7 +98,11 @@ class SortedDonations
                 continue;
             }
 
-            if ( $loto_id && $in_loto && $in_partie && $this->_isNotForNextRound($row_as_string))
+            if ( $loto_id
+                 && $in_loto
+                 && $in_partie
+                 && ! $in_entracte
+                 && $this->_isNotForNextRound($row_as_string))
                 return $imgs;
 
             if ( $in_loto && $in_partie && !$round_id && ($row[4] ?? ''))
@@ -108,8 +118,10 @@ class SortedDonations
     protected function _isNotForNextRound(string $row_as_string): bool
     {
         return (0 === strpos($row_as_string, 'partie '))
-                || (0 === strpos($row_as_string, 'gros lot'))
-                    || (0 === strpos($row_as_string, 'pas de bol'));
+            || (0 === strpos($row_as_string, 'gros lot'))
+            || (0 === strpos($row_as_string, 'surprise'))
+            || (0 === strpos($row_as_string, 'entracte'))
+            || (0 === strpos($row_as_string, 'pas de bol'));
     }
 
 
@@ -133,7 +145,7 @@ class SortedDonations
         if (!$in_partie)
             return false;
 
-        if ( in_array($partie_id, ['gros_lot', 'pas_de_bol']))
+        if ( in_array($partie_id, ['gros_lot', 'pas_de_bol', 'surprise']))
             return 0 === strpos($row_as_string, str_replace('_', ' ', strtolower($partie_id)));
 
         return 0 === strpos($row_as_string, strtolower('partie ' . $loto_id . ' n°'. $partie_id));
@@ -165,33 +177,60 @@ class SortedDonations
     }
 
 
-    public function getNumberOfPartiesIn(string $loto): int
+    public function getPartiesIn(string $loto): array
     {
 
         if( ! $loto)
-            return 0;
+            return [];
 
-        $count = 0;
+        $parties = [];
         $in_loto = false;
 
         foreach($this->_sorted_donations_array as $row)
         {
-            if ( !$row = strtolower((string) reset($row)))
+            if ( !$row_as_string = trim(strtolower((string) reset($row))))
                 continue;
 
-            if ( 0 === strpos($row, strtolower('parties ' . $loto)))
+            if ( 0 === strpos($row_as_string, strtolower('parties ' . $loto)))
             {
                 $in_loto = true;
                 continue;
             }
 
-            if ( 0 === strpos($row, 'parties ') && $count)
-                return $count;
+            if ( 0 === strpos($row_as_string, 'parties ') && $parties)
+                return $parties;
 
-            if ( 0 === strpos($row, 'partie ') && $in_loto)
-                $count++;
+            if ( 0 === strpos($row_as_string, 'partie ') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'surprise') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'entracte') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'pas de bol') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'gros lot') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
         }
 
-        return $count;
+        return $parties;
     }
 }

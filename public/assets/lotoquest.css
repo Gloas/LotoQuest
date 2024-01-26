@@ -1,6 +1,15 @@
+main * {
+    font-size: 1.2vw;
+}
+
+main * {
+    white-space: pre-wrap;
+    word-break: keep-all;
+}
+
 .current_number {
-    font-size: 10vw;
-    line-height: 300%;
+    font-size: 30vw;
+    line-height: 25vw;
     min-width: 80%;
 }
 
@@ -15,7 +24,9 @@ table td {
 }
 
 .card {
-    width: 200px;
+    width: 9vw;
+    max-height: 30vh;
+    overflow: hidden;
 }
 
 .masonry .card {
@@ -49,4 +60,16 @@ nav,
 
 .navbar-brand img {
     height: 28px;
+}
+
+.surprise .donators_row {
+    visibility: hidden;
+}
+
+.surprise .reveal {
+    margin-top: -200px;
+}
+
+.masonry_img {
+    object-fit: cover;
 }
