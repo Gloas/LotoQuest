@@ -329,7 +329,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
                                                (($donation[6] ?? '')
-                                                ? $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
+                                                ? $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '' ,
                                                                           'class' => 'card-img-top img-thumbnail img-fluid'])
                                                 : '')
                                                . $this->_tag('div',
@@ -356,7 +356,7 @@ new Masonry(ul);
         foreach($donations as $donation)
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
-                                               $this->_tag('img', '', ['src' => $donation[6] ?? '',
+                                               $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '',
                                                                        'alt' => $donation[0] ?? '',
                                                                        'class' => 'card-img masonry_img']),
                                                ['class' => 'card p-1 bg-transparent border-0']),
@@ -384,7 +384,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    $this->_tag('span', $donation[0] ?? '', ['class' => 'd-block w-100'])
                                    . (($donation[6] ?? '')
-                                      ? $this->_tag('img', '', ['src' => $donation[6] ?? '' ,
+                                      ? $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '' ,
                                                                 'class' => 'd-block w-100'])
                                       : ''),
                                    ['class' => 'carousel-item' . (0 == count($html) ? ' active' : '')]);
