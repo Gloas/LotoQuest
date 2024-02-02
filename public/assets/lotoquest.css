@@ -48,7 +48,7 @@ nav,
 }
 
 .card img {
-    min-height: 30px;
+    min-height: 50px;
 }
 
 .navbar-brand img {
@@ -121,4 +121,25 @@ body {
 
 main {
   flex: 1;
+}
+
+@media print {
+    header,
+    footer {
+        display: none;
+    }
+
+    .masonry_img {
+        mix-width: 250px;
+        box-shadow: 0px 0px 10px black;
+    }
+
+    .masonry .card {
+        margin: 20px;
+    }
+
+    body.bg-info-subtle,
+    main {
+        background-color: unset !important;
+    }
 }

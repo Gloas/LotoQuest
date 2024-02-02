@@ -164,7 +164,7 @@ class LotoQuest
 
         $brand = $this->_anchor('/', $this->_tag('img',
                                                  '',
-                                                 ['src' => 'https://www.ape-valleiry.fr/wp-content/uploads/2017/09/logo_transparent-300x223.png',
+                                                 ['src' => '/assets/logo/ape.png',
                                                   'class' => 'me-1'])
                                 . 'Accueil', ['class' => 'navbar-brand btn btn-info']);
 
@@ -246,7 +246,10 @@ for (var i = ul.children.length; i >= 0; i--) {
     ul.appendChild(ul.children[Math.random() * i | 0]);
 }
 new Masonry(ul);
-}, 30000);');
+}, 30000);setTimeout(() => {
+var ul = document.querySelector(\'.masonry\');
+new Masonry(ul);
+}, 400);');
 
         $html = [];
         if ( $this->_partie_id && $this->_round_id)
