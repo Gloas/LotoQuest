@@ -261,7 +261,7 @@ new Masonry(ul);
         if ( $this->_round_id)
             $content .= $this->_row($this->_anchor($this->_url('random'),
                                                    $this->_ico('fa-solid fa-wand-magic-sparkles') . 'Tirer un nombre',
-                                                   ['class' => 'btn btn-lg btn-info play mt-3']));
+                                                   ['class' => 'btn btn-lg btn-info play mt-1']));
 
         return $this->_tag('main',
                            $this->_tag('div',
@@ -274,7 +274,7 @@ new Masonry(ul);
     {
         $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-regular fa-hand-peace') . 'Merci à tous !', ['class' => 'thanks_title pt-3']));
 
-        $imgs = $this->_tag('div', $this->_img('/assets/thanks_donators.png', ['class' => 'img-fluid px-1 pb-0 ']), ['class' => 'col-6'])
+        $imgs = $this->_tag('div', $this->_img('/assets/thanks_donators.png', ['class' => 'img-fluid px-3 pb-0 ']), ['class' => 'col-6'])
             . $this->_tag('div', $this->_img('/assets/thanks_volunteers.png', ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-6']);
 
         $content .= $this->_tag('div', $imgs, ['class' => 'row m-0']);
