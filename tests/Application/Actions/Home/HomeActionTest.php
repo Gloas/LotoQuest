@@ -20,6 +20,13 @@ abstract class LotoQuestTestCase extends TestCase {
         $this->_body = (string) $response->getBody();
         return $this;
     }
+
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->_dispatch('/reset');
+    }
 }
 
 
@@ -56,13 +63,13 @@ class HomeActionTest extends LotoQuestTestCase
 
     public function testNavIsInBody()
     {
-        $this->assertStringContainsString('navbar navbar-nav navbar-expand bg-body-tertiary', $this->_body);
+        $this->assertStringContainsString('navbar navbar-expand-lg bg-primary p-0', $this->_body);
     }
 
 
     public function testNumberTableShouldNotBePresent()
     {
-        $this->assertStringNotContainsString('table table-info text-center', $this->_body);
+        $this->assertStringNotContainsString('table table-primary text-center', $this->_body);
     }
 
 
@@ -75,14 +82,21 @@ class HomeActionTest extends LotoQuestTestCase
     public function testWithRandomParamOneNumberTableShouldBePresent()
     {
         $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('table table-info text-center', $this->_body);
+        $this->assertStringContainsString('table table-bordered table-primary text-center', $this->_body);
     }
 
 
     public function testWithRandomParamOneCurrentNumberShouldBePresent()
     {
         $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('badge rounded-pill text-bg-success current_number', $this->_body);
+        $this->assertStringContainsString('mb-1 pb-1 text-bg-primary current_number d-inline-block', $this->_body);
+    }
+
+
+    public function testWithRandomParamCurrentNumberInTableShouldBePresent()
+    {
+        $this->_dispatch('/adulte/1/quine/random');
+        $this->assertStringContainsString('p-0 current_number_in_table text-bg-primary fw-bold', $this->_body);
     }
 
 

@@ -1,5 +1,9 @@
+body{
+    background-color: #8C68CD;
+}
+
 .btn.active {
-    text-shadow: 0 0 5px white;
+*    text-shadow: 0 0 5px white;
 }
 
 main {
@@ -11,7 +15,7 @@ main * {
 }
 
 nav {
-    margin-top: 120px;
+*    margin-top: 120px;
 }
 
 .current_number {
@@ -41,7 +45,6 @@ table td {
 .dropdown-menu.show,
 .play,
 nav,
-.table,
 .current_number,
 .card {
     box-shadow: 3px 3px 3px grey;
@@ -124,12 +127,69 @@ body {
 }
 
 main {
-  flex: 1;
+    flex: 1;
 }
 
 .card-body {
     max-height: 170px;
     overflow: hidden;
+}
+
+.round {
+    border: 2px solid;
+}
+
+.current_number {
+    border: 10px solid;
+}
+
+
+.current_number,
+.current_number_in_table,
+.current_round,
+.table.show_picked .picked {
+    border-color: #ccff33;
+    color: #ccff33;
+    animation-name: blinking;
+    animation-duration: 2s;
+    animation-iteration-count: 1000;
+}
+
+@keyframes blinking {
+    50% {
+        border-color: #f72585;
+        color: #f72585;
+    }
+}
+
+.play.disabled {
+    background-color: red;
+    cursor: not-allowed;
+    opacity: unset;
+}
+
+.play {
+    background-color: lightgreen;
+    transition-property: background-color;
+    transition-duration: 1s;
+}
+
+.play:hover {
+    background-color: green;
+}
+
+.table.show .invisible {
+    visibility: visible !important;
+}
+
+body .table .not_in_loto {
+    font-size: 0px !important;
+    background: none !important;
+}
+
+
+.table .previous_number_in_table {
+    background-color: #CCFF99;
 }
 
 @media print {
@@ -151,4 +211,21 @@ main {
     main {
         background-color: unset !important;
     }
+}
+
+.table tr:first-child,
+.table tr:first-child td:first-child,
+.table tr + tr td:last-child {
+    border: none;
+    background: none;
+}
+
+body .table-bordered>:not(caption) tr {
+    border-width: 0;
+}
+
+body .table-bordered > :not(caption) td{
+    border: 1px solid;
+    border-color: rgb(166, 181, 204);
+    border-width: thin;
 }

@@ -15,6 +15,8 @@ class LotoQuest
     protected array $_args;
     protected int $_number_table_counter = 1;
     protected int $_random_number = 0;
+    protected int $_last_number = 0;
+    protected int $_previous_number = 0;
     protected array $_number_table_in_memory;
     protected string $_memory_file;
 
@@ -120,7 +122,7 @@ class LotoQuest
                                     $this->_main(),
                                     $this->_footer()]),
                            ['data-session' => $this->_cookieId(),
-                            'class' => 'bg-info-subtle overflow-hidden m-0 p-0' . implode(' ', array_filter([$this->_loto_id,
+                            'class' => 'overflow-hidden m-0 p-0 ' . implode(' ', array_filter([$this->_loto_id,
                                                                                                              $this->_partie_id,
                                                                                                              $this->_round_id]))]);
     }
@@ -144,7 +146,7 @@ class LotoQuest
             $links [] = $this->_tag('li',
                                     $this->_anchor('#',
                                                    $this->_lotoIco($loto_id) . 'Loto ' . $loto_id,
-                                                   ['class' => 'nav-link text-dark btn btn-info py-1 dropdown-toggle'
+                                                   ['class' => 'nav-link text-dark btn btn-primary py-1 dropdown-toggle'
                                                     . $this->_active(sprintf('/%s/', $loto_id)),
                                                     'data-bs-toggle' => 'dropdown',
                                                     'role' => 'button',
@@ -166,7 +168,7 @@ class LotoQuest
                                                  '',
                                                  ['src' => '/assets/logo/ape.png',
                                                   'class' => 'me-1'])
-                                . 'Accueil', ['class' => 'navbar-brand btn btn-info']);
+                                . 'Accueil', ['class' => 'navbar-brand btn btn-primary']);
 
         $ul = $this->_tag('ul', implode($links), ['class' => 'nav']);
 
@@ -187,7 +189,7 @@ class LotoQuest
 
         $nav = $this->_tag('nav',
                            $nav_content,
-                           ['class' => 'navbar navbar-expand-lg bg-info p-0']);
+                           ['class' => 'navbar navbar-expand-lg bg-primary p-0']);
 
         return $this->_tag('header', $nav);
     }
@@ -212,7 +214,7 @@ class LotoQuest
 
         return $this->_tag('ul',
                            implode($links),
-                           ['class' => 'dropdown-menu border-info-subtle']);
+                           ['class' => 'dropdown-menu border-primary-subtle']);
     }
 
 
@@ -254,14 +256,15 @@ new Masonry(ul);
         $html = [];
         if ( $this->_partie_id && $this->_round_id)
             $html = array_merge($html,
-                                [$this->_tag('span', $this->_showNumber() , ['class' => 'mb-1 pb-1 text-bg-info current_number d-inline-block']),
+                                [$this->_tag('span', $this->_showNumber() , ['class' => 'mb-1 pb-1 bg-primary rounded current_number d-inline-block']),
                                  $this->_numberTable()]);
 
         $content .= $this->_row($html);
         if ( $this->_round_id)
             $content .= $this->_row($this->_anchor($this->_url('random'),
                                                    $this->_ico('fa-solid fa-wand-magic-sparkles') . 'Tirer un nombre',
-                                                   ['class' => 'btn btn-lg btn-info play mt-1']));
+                                                   ['class' => 'btn btn-lg rounded border play mt-1 disabled']))
+                . $this->_tag('script', 'setTimeout(function() {document.querySelector(".play.disabled").classList.remove("disabled");}, 4000);');
 
         return $this->_tag('main',
                            $this->_tag('div',
@@ -290,22 +293,38 @@ new Masonry(ul);
         if ( $number = $this->_randomNumber())
             return $number;
 
-        if ( $number = $this->_previousNumber())
-            return $number;
+        if ( $number = $this->_lastNumber())
+            return (string) $number;
 
         return '?';
     }
 
 
-    protected function _previousNumber(): string
+    protected function _lastNumber(): int
     {
         if ( ! $last = end($this->_number_table_in_memory))
-            return '';
+            return 0;
 
         if ( ! is_array($last))
-            return '';
+            return 0;
 
-        return (string) reset($last);
+        return $this->_last_number = (int) reset($last);
+    }
+
+
+    protected function _previousNumber(): int
+    {
+        $copy_array = $this->_number_table_in_memory;
+
+        array_pop($copy_array);
+
+        if ( ! $last = end($copy_array))
+            return 0;
+
+        if ( ! is_array($last))
+            return 0;
+
+        return $this->_previous_number = (int) reset($last);
     }
 
 
@@ -461,7 +480,7 @@ var timerInterval = setInterval(startTimer, 1000);
                            $round_name);
             $links [] = $this->_anchor($this->_url($url, true), 
                                        $this->_roundIco($round_name) . ucwords(str_replace('_', ' ', $round_name)),
-                                       ['class' => 'btn btn-info' . $this->_active($url)]);
+                                       ['class' => 'round btn btn-primary' . $this->_active($url)]);
         }
 
         return $links;
@@ -471,7 +490,7 @@ var timerInterval = setInterval(startTimer, 1000);
     protected function _active(string $url): string
     {
         return 0 === strpos($this->_request->getUri()->getPath(), $url)
-            ? ' active'
+            ? ' active current_round'
             : '';
     }
 
@@ -528,37 +547,84 @@ var timerInterval = setInterval(startTimer, 1000);
 
     protected function _numberTable(): string {
         $all_tr = [];
-        $this->_number_table_counter = 1;
+        $this->_number_table_counter = 0;
 
-        for ($row = 1 ; $row <= 9 ; $row ++)
-            $all_tr [] = $this->_tag('tr', $this->_numberTableTd());
+        for ($row = 0 ; $row <= 9 ; $row ++)
+            $all_tr [] = $this->_tag('tr', $this->_numberTableTd($row));
 
         return
             $this->_tag('div',
                         $this->_tag('div',
-                                    $this->_tag('table', implode($all_tr), ['class' => 'table table-bordered table-info text-center']),
-                                    ['class' => 'col-10']),
-                        ['class' => 'row mx-0']);
+                                    $this->_tag('table', implode($all_tr), ['class' => 'table table-bordered table-primary text-center']),
+                                    ['class' => 'col-10'])
+                        . $this->_tag('button',
+                                    $this->_tag('i', '', ['class' => 'fa-solid fa-table-cells']),
+                                    ['class' => 'position-absolute top-0 end-0 col-1 btn btn-sm btn-info show_table',
+                                     'onclick' => 'document.querySelector(\'.table\').classList.toggle(\'show\');'])
+                        . $this->_tag('button',
+                                    $this->_tag('i', '', ['class' => 'fa-solid fa-timeline']),
+                                    ['class' => 'position-absolute top-50 end-0 col-1 btn btn-sm btn-info show_table_picked',
+                                     'onclick' => 'document.querySelector(\'.table\').classList.toggle(\'show_picked\');']),
+                        ['class' => 'row mx-0 position-relative']);
     }
 
 
-    protected function _numberTableTd(): string {
+    protected function _numberTableTd(int $row): string {
         $all_td = [];
+        $this->_number_table_counter = $row;
         for ($col = 1; $col <= 10; $col ++) {
             $all_td [] = $this->_tag('td',
                                      (string) $this->_number_table_counter,
-                                     ['class' => 'p-0' . ($this->_isNumberVisible()
-                                                          ? ''
-                                                          : ' invisible')]);
-            $this->_number_table_counter++;
+                                     ['class' => 'p-0'
+                                      . ($this->_isForbiden() ? ' not_in_loto' : '')
+                                      . ($this->_isNumberVisible() ? '' : ' invisible')
+                                      . ($this->_isNumberPicked() ? ' picked' : '')
+                                      . ($this->_isPreviousNumber() ? ' previous_number_in_table' : '')
+                                      . ($this->_isCurrentNumber() ? ' current_number_in_table bg-primary fw-bold' : '')
+                                      ]);
+            $this->_number_table_counter+=10;
         }
 
         return implode($all_td);
     }
 
 
+    protected function _isForbiden(): bool
+    {
+        return in_array($this->_number_table_counter, [0,91, 92, 93, 94, 95, 96, 97, 98 ,99]);
+    }
+
+    protected function _isNumberPicked(): bool
+    {
+        return in_array($this->_number_table_counter, $this->_pickedNumbers());
+    }
+
+
+    protected function _pickedNumbers(): array
+    {
+        return array_map(fn($e) => reset($e), $this->_number_table_in_memory);
+    }
+
+
+    protected function _isPreviousNumber(): bool
+    {
+        return $this->_number_table_counter == $this->_previousNumber()
+            && $this->_number_table_counter
+            && ! $this->_isCurrentNumber();
+    }
+
+
+    protected function _isCurrentNumber(): bool
+    {
+        return $this->_number_table_counter == ($this->_random_number ? $this->_random_number : $this->_last_number);
+    }
+
+
     protected function _isNumberVisible(): bool
     {
+        if ( ! $this->_number_table_counter)
+            return false;
+
         if ($this->_number_table_counter === $this->_random_number)
             return true;
 
@@ -576,7 +642,7 @@ var timerInterval = setInterval(startTimer, 1000);
             $html [] = $this->_anchor('/reset',
                                       $this->_ico('fa-solid fa-trash') . 'Réinitialiser les tirages',
                                       ['onclick' => 'return confirm(\'Êtes-vous sûr ?\');',
-                                       'class' => 'btn btn-sm btn-danger']);
+                                       'class' => 'btn btn-sm btn-danger reset_loto position-absolute bottom-0 start-0']);
 
         $html [] = $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js']);
         $html [] = $this->_tag('script', '', ['src' => '/assets/masonry.pkgd.min.js']);
