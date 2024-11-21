@@ -13,7 +13,7 @@ use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 if ( !defined('BASE_PATH'))
-    define('BASE_PATH', '/');
+    define('BASE_PATH', '');
 // define('BASE_PATH', '/lotoquest/public');
 
 return function (App $app) {
@@ -22,7 +22,7 @@ return function (App $app) {
     //     return $response;
     // });
 
-    if ( '/' != BASE_PATH)
+    if ( '' != BASE_PATH)
         $app->setBasePath(BASE_PATH);
 
     $app->get('/', function (Request $request, Response $response) {
