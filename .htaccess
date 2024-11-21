@@ -17,3 +17,7 @@ deny from all
   # RewriteCond %{HTTPS} off
   # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
+
+# <IfModule mod_rewrite.c>
+#   RedirectMatch ^/$ /public/
+# </IfModule>

@@ -102,11 +102,11 @@ class LotoQuest
               $this->_tag('meta', '',
                           ['nawe' => 'viewport',
                            'content' => 'width=device-width, initial-scale=1']),
-              $this->_tag('link', '', ['href' => '/assets/bootstrap.min.css',
+              $this->_tag('link', '', ['href' => BASE_PATH . 'assets/bootstrap.min.css',
                                        'rel' => 'stylesheet']),
-              $this->_tag('link', '', ['href' => '/assets/fontawesome/css/all.min.css',
+              $this->_tag('link', '', ['href' => BASE_PATH . 'assets/fontawesome/css/all.min.css',
                                        'rel' => 'stylesheet']),
-              $this->_tag('link', '', ['href' => '/assets/lotoquest.css',
+              $this->_tag('link', '', ['href' => BASE_PATH . 'assets/lotoquest.css',
                                        'rel' => 'stylesheet']),
               $this->_tag('title', 'Loto Quest ' . implode(' ',
                                                            array_filter([$this->_loto_id,
@@ -164,9 +164,9 @@ class LotoQuest
                                          str_replace('_', ' ', $this->_round_id)),
                                  ['class' => 'navbar-text fs-5 py-1 my-1  pe-3 text-dark text-center text-lg-end']);
 
-        $brand = $this->_anchor('/', $this->_tag('img',
+        $brand = $this->_anchor( BASE_PATH . '', $this->_tag('img',
                                                  '',
-                                                 ['src' => '/assets/logo/ape.png',
+                                                 ['src' => BASE_PATH . 'assets/logo/ape.png',
                                                   'class' => 'me-1'])
                                 . 'Accueil', ['class' => 'navbar-brand btn btn-primary']);
 
@@ -202,7 +202,7 @@ class LotoQuest
         foreach ( $parties_row as $partie_array)
         {
             $partie = new Partie($partie_array);
-            $url = '/' . $loto_id . '/' . $partie->getId();
+            $url = BASE_PATH . '/' . $loto_id . '/' . $partie->getId();
             $links [] = $this->_tag('li', $this->_anchor($this->_url($url . $partie->getFirstRound(), true),
                                                          ucfirst($partie->getAnchorLabel()),
                                                          ['class' => 'dropdown-item' . $this->_active($url)]));
@@ -353,7 +353,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
                                                (($donation[6] ?? '')
-                                                ? $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '' ,
+                                                ? $this->_tag('img', '', ['src' => BASE_PATH . 'assets/logo/' . $donation[6] ?? '' ,
                                                                           'class' => 'card-img-top img-thumbnail img-fluid'])
                                                 : '')
                                                . $this->_tag('div',
@@ -381,7 +381,7 @@ new Masonry(ul);
         foreach($donations as $donation)
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
-                                               $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '',
+                                               $this->_tag('img', '', ['src' => BASE_PATH . 'assets/logo/' . $donation[6] ?? '',
                                                                        'alt' => $donation[0] ?? '',
                                                                        'class' => 'card-img masonry_img']),
                                                ['class' => 'card p-1 bg-transparent border-0']),
@@ -409,7 +409,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    $this->_tag('span', $donation[0] ?? '', ['class' => 'd-block w-100'])
                                    . (($donation[6] ?? '')
-                                      ? $this->_tag('img', '', ['src' => '/assets/logo/' . $donation[6] ?? '' ,
+                                      ? $this->_tag('img', '', ['src' => BASE_PATH . 'assets/logo/' . $donation[6] ?? '' ,
                                                                 'class' => 'd-block w-100'])
                                       : ''),
                                    ['class' => 'carousel-item' . (0 == count($html) ? ' active' : '')]);
@@ -639,13 +639,13 @@ var timerInterval = setInterval(startTimer, 1000);
     {
         $html = [];
         if (!$this->_loto_id && ! $this->_outro)
-            $html [] = $this->_anchor('/reset',
+            $html [] = $this->_anchor( BASE_PATH . 'reset',
                                       $this->_ico('fa-solid fa-trash') . 'Réinitialiser les tirages',
                                       ['onclick' => 'return confirm(\'Êtes-vous sûr ?\');',
                                        'class' => 'btn btn-sm btn-danger reset_loto position-absolute bottom-0 start-0']);
 
-        $html [] = $this->_tag('script', '', ['src' => '/assets/bootstrap.bundle.min.js']);
-        $html [] = $this->_tag('script', '', ['src' => '/assets/masonry.pkgd.min.js']);
+        $html [] = $this->_tag('script', '', ['src' => BASE_PATH . 'assets/bootstrap.bundle.min.js']);
+        $html [] = $this->_tag('script', '', ['src' => BASE_PATH . 'assets/masonry.pkgd.min.js']);
         return $this->_tag('footer', $this->_row(implode($html)), ['class' => 'text-center']);
     }
 
@@ -714,6 +714,6 @@ var timerInterval = setInterval(startTimer, 1000);
                  as $id)
             $new_url []= $id;
 
-        return '/' . implode('/', array_unique($new_url));
+        return BASE_PATH . '/' . implode('/', array_unique($new_url));
     }
 }

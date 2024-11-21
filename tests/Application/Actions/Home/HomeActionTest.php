@@ -89,14 +89,14 @@ class HomeActionTest extends LotoQuestTestCase
     public function testWithRandomParamOneCurrentNumberShouldBePresent()
     {
         $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('mb-1 pb-1 text-bg-primary current_number d-inline-block', $this->_body);
+        $this->assertStringContainsString('mb-1 pb-1 bg-primary rounded current_number d-inline-block', $this->_body);
     }
 
 
     public function testWithRandomParamCurrentNumberInTableShouldBePresent()
     {
         $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('p-0 current_number_in_table text-bg-primary fw-bold', $this->_body);
+        $this->assertStringContainsString('p-0 current_number_in_table bg-primary fw-bold', $this->_body);
     }
 
 

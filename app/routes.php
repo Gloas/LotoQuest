@@ -12,11 +12,18 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
+if ( !defined('BASE_PATH'))
+    define('BASE_PATH', '/');
+// define('BASE_PATH', '/lotoquest/public');
+
 return function (App $app) {
     // $app->options('/{routes:.*}', function (Request $request, Response $response) {
     //     // CORS Pre-Flight OPTIONS Request Handler
     //     return $response;
     // });
+
+    if ( '/' != BASE_PATH)
+        $app->setBasePath(BASE_PATH);
 
     $app->get('/', function (Request $request, Response $response) {
         $home = new ViewHomeAction;
