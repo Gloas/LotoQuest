@@ -99,9 +99,6 @@ class LotoQuest
     protected function _head(): string {
         $head =
             [ $this->_tag('meta', '', ['charset' => 'utf-8']),
-              $this->_tag('meta', '',
-                          ['nawe' => 'viewport',
-                           'content' => 'width=device-width, initial-scale=1']),
               $this->_tag('link', '', ['href' => BASE_PATH . '/assets/bootstrap.min.css',
                                        'rel' => 'stylesheet']),
               $this->_tag('link', '', ['href' => BASE_PATH . '/assets/fontawesome/css/all.min.css',
@@ -177,19 +174,23 @@ class LotoQuest
             $rounds_menu = implode($this->_showRoundsMenu($this->_partie_id));
 
         $nav_content = $this->_tag('div',
-                                   $this->_tag('div', $brand,
-                                               ['class' => 'col-12 col-lg-2 order-1 text-center'])
-                                   . $this->_tag('div', $ul,
-                                                 ['class' => 'col-12 col-lg-3 order-3 order-lg-2 text-center'])
-                                   . $this->_tag('div', $rounds_menu,
-                                                 ['class' => 'col-12 col-lg-4 order-4 btn-group justify-content-center' . ($rounds_menu ? ' border border-1' : '')])
-                                   . $this->_tag('div' , $title,
-                                                 ['class' => 'col-12 col-lg-3 navbar-text py-1 my-1 h6 pe-lg-3 text-center text-lg-end order-2 order-lg-4']),
+                                   $this->_tag('div',
+                                               $brand,
+                                               ['class' => 'col-6 col-lg-2 order-1 text-center p-1'])
+                                   . $this->_tag('div',
+                                                 $ul,
+                                                 ['class' => 'col-12 col-lg-3 order-3 order-lg-2 text-center p-1'])
+                                   . $this->_tag('div',
+                                                 $rounds_menu,
+                                                 ['class' => 'col-12 col-lg-4 order-4 p-1 mt-3 mt-lg-0 btn-group justify-content-center' . ($rounds_menu ? ' ' : '')])
+                                   . $this->_tag('div' ,
+                                                 $title,
+                                                 ['class' => 'col-6 col-lg-3 navbar-text p-1 h6 pe-lg-3 text-center text-lg-end order-2 order-lg-4']),
                                    ['class' => 'container-fluid p-0']);
 
         $nav = $this->_tag('nav',
                            $nav_content,
-                           ['class' => 'navbar navbar-expand-lg p-0']);
+                           ['class' => 'navbar navbar-expand-lg p-1 p-lg-3']);
 
         return $this->_tag('header', $nav, ['class' => 'mb-1']);
     }
@@ -255,8 +256,13 @@ new Masonry(ul);
 }, 400);');
 
         if ( $this->_partie_id && $this->_round_id)
-            $content .= $this->_col($this->_tag('span', $this->_showNumber() , ['class' => 'mb-1 pb-1 rounded current_number d-inline-block']))
-                . $this->_col($this->_numberTable());
+            $content .=
+                $this->_col($this->_tag('span',
+                                        $this->_showNumber() ,
+                                        ['class' => 'mb-1 pb-1 rounded current_number d-inline-block']),
+                            'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 p-lg-5')
+                . $this->_col($this->_numberTable(),
+                              'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 pb-5 p-lg-5');
 
         if ( $this->_round_id)
             $content .= $this->_col($this->_anchor($this->_url('random'),
@@ -553,8 +559,9 @@ var timerInterval = setInterval(startTimer, 1000);
             $all_tr [] = $this->_tag('tr', $this->_numberTableTd($row));
 
         return
-            $this->_row($this->_col($this->_tag('table', implode($all_tr),
-                                                ['class' => 'table table-responsive table-striped table-bordered table-primary text-center']),
+            $this->_row(
+                $this->_col($this->_tag('table', implode($all_tr),
+                                        ['class' => 'table table-responsive table-striped table-bordered table-primary text-center']),
                                     'col-10')
                         . $this->_tag('button',
                                     $this->_tag('i', '', ['class' => 'fa-solid fa-table-cells']),
@@ -563,7 +570,10 @@ var timerInterval = setInterval(startTimer, 1000);
                         . $this->_tag('button',
                                     $this->_tag('i', '', ['class' => 'fa-solid fa-timeline']),
                                     ['class' => 'position-absolute top-50 end-0 col-1 btn btn-sm show_table_picked',
-                                     'onclick' => 'document.querySelector(\'.table\').classList.toggle(\'show_picked\');']),
+                                     'onclick' => 'document.querySelector(\'.table\').classList.toggle(\'show_picked\');'])
+                        . $this->_tag('span',
+                                      floor(count($this->_number_table_in_memory) / 90 * 100) . '%',
+                                      ['class' => 'position-absolute bottom-0 end-0 col-1 btn btn-sm fw-lighter percent']),
                         'row mx-0 position-relative justify-content-center');
     }
 

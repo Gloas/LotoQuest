@@ -1,6 +1,6 @@
 DONE Add timeout to "tirer un nombre" to prevent both clicking and miss clicking and slow the game.
 
-Allow to override time in entracte with url params
+DONE Allow to override time in entracte with url params
 
 DONE Highlight the current number in the table
 
@@ -8,11 +8,11 @@ DONE Highlight the previous number in the table
 
 DONE Improve "active" CSS for current round «quine» «double quine» «carton»
 
-Add the percent of number piked (small)
+DONE Add the percent of number piked (small)
 
 DONE Add a button above the table to show all the number in the table.
 
-Add a button above the table to show all the number picked (popup)
+DONE Add a button above the table to show all the number picked (popup)
 
 DONE reverse Table number
 DONE 1 -> 9
