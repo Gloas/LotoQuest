@@ -1,53 +1,36 @@
-body{
+body {
     background-color: #8C68CD;
-}
-
-.btn.active {
-*    text-shadow: 0 0 5px white;
-}
-
-main {
-    font-size: 1.2vw;
 }
 
 main * {
     white-space: pre-wrap;
 }
-
 nav {
-*    margin-top: 120px;
+        margin-top: 120px;
 }
 
 .current_number {
-    font-size: 25vw;
+    font-size: 20vw;
     line-height: 20vw;
-    min-width: 80%;
+    width: 100%;
+    height: 100%;
+}
+
+table {
+    table-layout: fixed;
 }
 
 table td {
-    font-size: 1.8vw;
+    font-size: 2vw;
 }
 
 .card img.card-img-top {
     max-height: 150px;
-    object-fit: cover;
-    max-width: 300px;
+    max-width: 150px;
 }
 
 .masonry .card {
     width: auto;
-}
-
-.col-1 {
-    width: auto;
-}
-
-.dropdown-menu.show,
-.play,
-nav,
-.current_number,
-.card {
-    box-shadow: 3px 3px 3px grey;
 }
 
 .masonry .card {
@@ -72,6 +55,7 @@ nav,
 
 .masonry_img {
     object-fit: cover;
+    background-color: white;
 }
 
 h1.thanks_title {
@@ -80,7 +64,7 @@ h1.thanks_title {
 
 .pas_de_bol .card,
 .gros_lot .card {
-    width: 15vw;
+    width: 30vw;
 }
 
 .pas_de_bol img.card-img-top,
@@ -91,7 +75,7 @@ h1.thanks_title {
 }
 
 .price {
-    display: none;
+    font-size: 0;
 }
 
 .fa-stopwatch {
@@ -106,32 +90,31 @@ h1.thanks_title {
 
 
 .dropdown-item.active, .dropdown-item:active {
-    color: var(--bs-dark);
-    background-color: var(--bs-info);
+    color: unset;
+    background-color: unset;
 }
 
+.surprise_bleu,
 .surprise_bleu footer,
 .surprise_bleu main {
     background-color: #3a58b2;
 }
 
+.surprise_rouge,
 .surprise_rouge footer,
 .surprise_rouge main {
     background-color: #c95252;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
+.card-group .card .card-img-top {
+    height: 150px;
+    object-fit: cover;
+    margin: auto;
 }
 
-main {
-    flex: 1;
-}
-
-.card-body {
-    max-height: 170px;
+.card-group .card {
+    max-width: 230px;
+    max-height: 300px;
     overflow: hidden;
 }
 
@@ -146,7 +129,7 @@ main {
 
 .current_number,
 .current_number_in_table,
-.current_round,
+.current_round:not(.dropdown-toggle),
 .table.show_picked .picked {
     border-color: #ccff33;
     color: #ccff33;
@@ -163,16 +146,57 @@ main {
 }
 
 .play.disabled {
-    background-color: red;
     cursor: not-allowed;
     opacity: unset;
 }
 
 .play {
-    background-color: lightgreen;
-    transition-property: background-color;
-    transition-duration: 1s;
+    position: relative;
+    background-color: #33FF00;
 }
+
+.enfant .play:after {
+    animation-duration: 6.6s;
+    transition-duration: 6.6s;
+}
+
+.adulte .play:after {
+    animation-duration: 4.1s;
+    transition-duration: 4.1s;
+}
+
+.play:after{
+    content: '';
+    height: 100%;
+    display: inline;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation-name: disabled;
+    animation-iteration-count: 1;
+    z-index: -1;
+    transition-property: width;
+    transition-timing-function: linear;
+
+}
+
+.play.disabled:after{
+    width: 1%;
+}
+
+@keyframes disabled {
+    1% {
+        background-color: red;
+    }
+
+
+    100% {
+        background-color: #33FF00;
+        width: 100%;
+    }
+}
+
 
 .play:hover {
     background-color: green;
@@ -218,6 +242,7 @@ body .table .not_in_loto {
 .table tr + tr td:last-child {
     border: none;
     background: none;
+    --bs-table-bg-type: unset;
 }
 
 body .table-bordered>:not(caption) tr {
