@@ -151,6 +151,7 @@ h1.thanks_title {
 .play {
     position: relative;
     background-color: #33FF00;
+    font-size: 28px;
 }
 
 .enfant .play:after {
