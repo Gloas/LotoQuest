@@ -472,6 +472,7 @@ var timerInterval = setInterval(startTimer, 1000);
         if ( in_array($partie_id, ['gros_lot',
                                    'pas_de_bol',
                                    'surprise_bleu',
+                                   'surprise_verte',
                                    'surprise_rouge']))
             $rounds = ['carton'];
 

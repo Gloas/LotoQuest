@@ -92,6 +92,12 @@ h1.thanks_title {
     background-color: unset;
 }
 
+.surprise_verte,
+.surprise_verte footer,
+.surprise_verte main {
+    background-color: #109610;
+}
+
 .surprise_bleu,
 .surprise_bleu footer,
 .surprise_bleu main {
