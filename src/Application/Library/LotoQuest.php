@@ -618,8 +618,8 @@ var timerInterval = setInterval(startTimer, 1000);
 
     protected function _isPreviousNumber(): bool
     {
-        return $this->_number_table_counter == $this->_previousNumber()
-            && $this->_number_table_counter
+        return $this->_number_table_counter
+            && $this->_number_table_counter == $this->_previousNumber()
             && ! $this->_isCurrentNumber();
     }
 

@@ -132,13 +132,22 @@ h1.thanks_title {
 
 
 .current_number,
-.current_number_in_table,
+.current_number_in_table {
+    background-color: #fff !important;
+    box-shadow: initial !important;
+}
+
+.current_number_in_table {
+    border-color: #000 !important;
+    border-width: 2px !important;
+}
+
 .current_round:not(.dropdown-toggle),
 .table.show_picked .picked {
     border-color: #ccff33;
     color: #ccff33;
     animation-name: blinking;
-    animation-duration: 2s;
+    animation-duration: 4s;
     animation-iteration-count: 1000;
 }
 
@@ -218,7 +227,8 @@ body .table .not_in_loto {
 
 
 .table .previous_number_in_table {
-    background-color: #CCFF99;
+    background-color: #b990e5;
+    box-shadow: initial;
 }
 
 @media print {
