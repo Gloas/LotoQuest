@@ -23,9 +23,14 @@ class LotoQuest
     protected string $_loto_id;
     protected string $_partie_id;
     protected string $_entracte;
+    protected string $_intro;
+    protected string $_spectacle;
     protected string $_round_id;
     protected bool $_pick_a_random_number;
-    protected bool $_outro;
+    protected string $_outro;
+    protected Partie $_partie_spectacle;
+    protected Partie $_partie_outro;
+    protected Partie $_partie_intro;
 
 
     public static function resetParties(Request $request): void
@@ -51,7 +56,9 @@ class LotoQuest
         $this->_round_id = $args['round_name'] ?? '';
         $this->_pick_a_random_number = ($args['random'] ?? '') === 'random';
         $this->_entracte = (0 === strpos($this->_partie_id, 'entracte')) ? $this->_partie_id : '';
-        $this->_outro = $args['outro'] ?? false;
+        $this->_outro = (0 === strpos($this->_partie_id, 'outro')) ? $this->_partie_id : '';
+        $this->_spectacle = (0 === strpos($this->_partie_id, 'spectacle')) ? $this->_partie_id : '';
+        $this->_intro = (0 === strpos($this->_partie_id, 'intro')) ? $this->_partie_id : '';
     }
 
 
@@ -153,7 +160,7 @@ class LotoQuest
                                     ['class' => 'nav-item dropdown']);
 
         $title = '';
-        if ( $this->_partie_id)
+        if ( $this->_partie_id && ! $this->_outro && ! $this->_intro && ! $this->_spectacle)
             $title = $this->_tag('h1',
                                  $this->_ico('fa-solid fa-play') . sprintf('Loto %s, partie %s %s',
                                          $this->_loto_id,
@@ -203,15 +210,25 @@ class LotoQuest
         foreach ( $parties_row as $partie_array)
         {
             $partie = new Partie($partie_array);
+
+            if ( $partie->isSpectacle())
+                $this->_partie_spectacle = $partie;
+
+            if ( $partie->isIntro())
+                $this->_partie_intro = $partie;
+
+            if ( $partie->isOutro())
+                $this->_partie_outro = $partie;
+
             $url = $loto_id . '/' . $partie->getId();
             $links [] = $this->_tag('li', $this->_anchor($this->_url($url . $partie->getFirstRound(), true),
                                                          ucfirst($partie->getAnchorLabel()),
                                                          ['class' => 'dropdown-item' . $this->_active($url)]));
         }
 
-        $links [] = $this->_tag('li', $this->_anchor($this->_url('outro', true),
-                                                     'Outro',
-                                                     ['class' => 'dropdown-item' . $this->_active('/outro')]));
+        // $links [] = $this->_tag('li', $this->_anchor($this->_url('outro', true),
+        //                                              'Outro',
+        //                                              ['class' => 'dropdown-item' . $this->_active('/outro')]));
 
         return $this->_tag('ul',
                            implode($links),
@@ -291,10 +308,14 @@ new Masonry(ul);
 
     protected function _outro(): string
     {
-        $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-regular fa-hand-peace') . 'Merci à tous !', ['class' => 'thanks_title pt-3']));
+        if ( ! $this->_partie_outro)
+            return '';
 
-        $imgs = $this->_tag('div', $this->_img('assets/thanks_donators.png', ['class' => 'img-fluid px-3 pb-0 ']), ['class' => 'col-12 col-lg-6'])
-            . $this->_tag('div', $this->_img('assets/thanks_volunteers.png', ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-12 col-lg-6']);
+        $outro = $this->_partie_outro;
+        $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-regular fa-hand-peace') . $outro->getThanksMessage(), ['class' => 'thanks_title pt-3']));
+
+        $imgs = $this->_tag('div', $this->_img('assets/' . $outro->getThanksDonatorsImg(), ['class' => 'img-fluid px-3 pb-0 ']), ['class' => 'col-12 col-lg-6'])
+            . $this->_tag('div', $this->_img('assets/' . $outro->getThanksVolunteersImg(), ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-12 col-lg-6']);
 
         $content .= $this->_tag('div', $imgs, ['class' => 'row m-0']);
         return $this->_tag('main',
@@ -431,8 +452,12 @@ new Masonry(ul);
 
     protected function _showRoundsMenu(string $partie_id): array
     {
+        if ( $this->_outro || $this->_intro || $this->_spectacle)
+            return [];
+
         if ( $this->_entracte)
         {
+            xdebug_break();
             $entracte = new Partie(explode('_', $this->_entracte));
             return [
                 $this->_tag('span', $this->_ico('fa-solid fa-fire-flame-curved text-danger') . sprintf('Carton à %d€', $entracte->getPrix()), ['class' => 'prix fs-1  me-5']),

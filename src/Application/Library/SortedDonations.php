@@ -123,6 +123,9 @@ class SortedDonations
             || (0 === strpos($row_as_string, 'surprise bleu'))
             || (0 === strpos($row_as_string, 'surprise rouge'))
             || (0 === strpos($row_as_string, 'entracte'))
+            || (0 === strpos($row_as_string, 'intro'))
+            || (0 === strpos($row_as_string, 'outro'))
+            || (0 === strpos($row_as_string, 'spectacle'))
             || (0 === strpos($row_as_string, 'pas de bol'));
     }
 
@@ -215,6 +218,25 @@ class SortedDonations
             }
 
             if ( 0 === strpos($row_as_string, 'entracte') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'outro') && $in_loto)
+            {
+                $parties [] = $row;
+                xdebug_break();
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'spectacle') && $in_loto)
+            {
+                $parties [] = $row;
+                continue;
+            }
+
+            if ( 0 === strpos($row_as_string, 'intro') && $in_loto)
             {
                 $parties [] = $row;
                 continue;

@@ -124,6 +124,19 @@ h1.thanks_title {
 
 .round {
     border: 2px solid;
+    font-size: 24px !important;
+}
+
+li.nav-item a {
+    font-size: 24px;
+}
+
+h1.navbar-text {
+    font-size: 24px !important;
+}
+
+a.navbar-brand {
+    font-size: 28px;
 }
 
 .current_number {
