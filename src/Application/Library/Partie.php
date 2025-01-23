@@ -130,4 +130,22 @@ class Partie
     {
         return 'spectacle' == $this->getId();
     }
+
+
+    public function getShowTitle(): string
+    {
+        return (string) $this->_params[1] ?? '';
+    }
+
+
+    public function getShowDesc(): string
+    {
+        return str_replace('\n', '<br />', (string) $this->_params[2] ?? '');
+    }
+
+
+    public function getShowImg(): string
+    {
+        return (string) $this->_params[3] ?? '';
+    }
 }

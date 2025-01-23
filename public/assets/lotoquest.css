@@ -60,6 +60,14 @@ h1.thanks_title {
     font-size: 3vw;
 }
 
+h1.show_title {
+    font-size: 6vw;
+}
+
+p.show_desc {
+    font-size: 1.7vw;
+}
+
 .pas_de_bol .card,
 .gros_lot .card {
     width: 30vw;

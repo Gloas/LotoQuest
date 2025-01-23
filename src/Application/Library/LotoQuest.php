@@ -242,6 +242,9 @@ class LotoQuest
         if ( $this->_outro)
             return $this->_outro();
 
+        if ( $this->_spectacle)
+            return $this->_spectacle();
+
         $donators = SortedDonations::getInstance()->donators($this->_loto_id,
                                                              $this->_partie_id,
                                                              $this->_round_id);
@@ -314,10 +317,26 @@ new Masonry(ul);
         $outro = $this->_partie_outro;
         $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-regular fa-hand-peace') . $outro->getThanksMessage(), ['class' => 'thanks_title pt-3']));
 
-        $imgs = $this->_tag('div', $this->_img('assets/' . $outro->getThanksDonatorsImg(), ['class' => 'img-fluid px-3 pb-0 ']), ['class' => 'col-12 col-lg-6'])
-            . $this->_tag('div', $this->_img('assets/' . $outro->getThanksVolunteersImg(), ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-12 col-lg-6']);
+        $imgs = $this->_tag('div', $this->_img('assets/' . $outro->getThanksDonatorsImg(), ['class' => 'img-fluid px-3 pb-0 ']), ['class' => 'col-12 col-lg-5 d-inline-block'])
+            . $this->_tag('div', $this->_img('assets/' . $outro->getThanksVolunteersImg(), ['class' => 'img-fluid px-5 pb-0 pt-5']), ['class' => 'col-12 col-lg-5 d-inline-block']);
 
-        $content .= $this->_tag('div', $imgs, ['class' => 'row m-0']);
+        $content .= $this->_tag('div', $imgs, ['class' => 'row m-0 justify-content-center']);
+        return $this->_tag('main',
+                           $this->_tag('div',
+                                       $content,
+                                       ['class' => 'container-fluid text-center p-0 m-0']));
+    }
+
+
+    protected function _spectacle(): string
+    {
+        if ( ! $this->_partie_spectacle)
+            return '';
+
+        $spectacle = $this->_partie_spectacle;
+        $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-solid fa-star') . $spectacle->getShowTitle(), ['class' => 'show_title pt-3']))
+           . $this->_tag('row', $this->_tag('p', $spectacle->getShowDesc(), ['class' => 'show_desc pt-3 col-8 d-inline-block']));
+
         return $this->_tag('main',
                            $this->_tag('div',
                                        $content,
