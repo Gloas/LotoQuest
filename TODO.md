@@ -18,3 +18,10 @@ DONE reverse Table number
 DONE 1 -> 9
 DONE 10 -> 19
 DONE 20 -> 29
+
+OUTRO avant Gros Lot
+ligne spectacle avant partie 1
+ligne spectacle avant le gros lot
+ordre alphabétique des donateurs
+
+max 50 % de bon
