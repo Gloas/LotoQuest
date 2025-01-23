@@ -226,7 +226,6 @@ class SortedDonations
             if ( 0 === strpos($row_as_string, 'outro') && $in_loto)
             {
                 $parties [] = $row;
-                xdebug_break();
                 continue;
             }
 

@@ -103,7 +103,6 @@ class Partie
 
     public function getThanksVolunteersImg(): string
     {
-        xdebug_break();
         return (string) $this->_params[3] ?? '';
     }
 

@@ -476,7 +476,6 @@ new Masonry(ul);
 
         if ( $this->_entracte)
         {
-            xdebug_break();
             $entracte = new Partie(explode('_', $this->_entracte));
             return [
                 $this->_tag('span', $this->_ico('fa-solid fa-fire-flame-curved text-danger') . sprintf('Carton à %d€', $entracte->getPrix()), ['class' => 'prix fs-1  me-5']),
