@@ -334,13 +334,18 @@ new Masonry(ul);
             return '';
 
         $spectacle = $this->_partie_spectacle;
-        $content = $this->_tag('row', $this->_tag('h1', $this->_ico('fa-solid fa-star') . $spectacle->getShowTitle(), ['class' => 'show_title pt-3']))
-           . $this->_tag('row', $this->_tag('p', $spectacle->getShowDesc(), ['class' => 'show_desc pt-3 col-8 d-inline-block']));
+        $content = $this->_row($this->_tag('h1', $this->_ico('fa-solid fa-star') . $spectacle->getShowTitle(), ['class' => 'show_title pt-3']))
+            . $this->_row($this->_col($this->_img('assets/logo/' . $spectacle->getShowImg(),
+                                                  ['class' => 'prims_img align-top text-end']),
+                                      'col-5 text-end')
+                          . $this->_col($this->_tag('p',
+                                                    $spectacle->getShowDesc(),
+                                                    ['class' => 'show_desc pt-3 col-8 d-inline-block text-start']),
+                                        'col-7'),
+            'row g-0 align-items-center justify-content-center');
 
         return $this->_tag('main',
-                           $this->_tag('div',
-                                       $content,
-                                       ['class' => 'container-fluid text-center p-0 m-0']));
+                           $this->_container($content));
     }
 
 
@@ -725,7 +730,7 @@ var timerInterval = setInterval(startTimer, 1000);
     {
         return 'enfant' == $loto_id
             ? $this->_ico('fa-solid fa-gamepad')
-            : $this->_ico('fa-solid fa-bicycle');
+            : $this->_ico('fa-solid fa-hotel');
     }
 
 

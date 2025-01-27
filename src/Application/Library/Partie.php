@@ -145,6 +145,6 @@ class Partie
 
     public function getShowImg(): string
     {
-        return (string) $this->_params[3] ?? '';
+        return (string) $this->_params[6] ?? '';
     }
 }

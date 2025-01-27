@@ -61,11 +61,11 @@ h1.thanks_title {
 }
 
 h1.show_title {
-    font-size: 6vw;
+    font-size: 5vw;
 }
 
 p.show_desc {
-    font-size: 1.7vw;
+    font-size: 1.5vw;
 }
 
 .pas_de_bol .card,
@@ -289,4 +289,29 @@ body .table-bordered > :not(caption) td{
     border: 1px solid;
     border-color: rgb(166, 181, 204);
     border-width: thin;
+}
+
+.prims_img {
+    width: auto;
+    height: 400px;
+}
+
+.gros_lot main {
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: top;
+    background-repeat: no-repeat;
+}
+
+.adulte.gros_lot main {
+    background-image: url('gros_lot_bg.jpg');
+}
+
+.enfant.gros_lot main {
+    background-image: url('gros_lot_enfant_bg.jpg');
+}
+
+body.gros_lot button {
+    color: white;
+    text-shadow: 5px 5px 5px black;
 }

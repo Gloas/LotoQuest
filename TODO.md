@@ -22,7 +22,7 @@ DONE 20 -> 29
 DONE OUTRO gérer par loto.csv
 DONE gérer spectacle par loto.csv1
 
-TODO max 50 % de bon
+TODO max 50 % de bon par manche
 TODO migrer tous les paramètres de lotoSorter dans loto_config.php
 TODO les retry garde en mémoire le lotosorter qui a le mieu trier (le moins de lots à trier restant)
 TODO faire des retry en modifiant le loto_config.php
