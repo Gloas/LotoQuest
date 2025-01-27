@@ -328,6 +328,9 @@ body .table-bordered > :not(caption) td{
     background-position-y: -200px;
 }
 
+body.pas_de_bol .percent,
+body.gros_lot .percent,
+body.pas_de_bol button,
 body.gros_lot button {
     color: #fff;
     text-shadow: 5px 5px 5px black;
