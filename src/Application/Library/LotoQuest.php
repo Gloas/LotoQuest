@@ -10,6 +10,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class LotoQuest
 {
+    protected static int $_enfant_timeout = 6500;
+    protected static int $_adulte_timeout = 4000;
+
     protected Request $_request;
     protected Response $_response;
     protected array $_args;
@@ -291,7 +294,7 @@ new Masonry(ul);
                                     'col-12 fixed-bottom mb-1')
                 . $this->_tag('script',
                               sprintf('setTimeout(function() {document.querySelector(".play.disabled").classList.remove("disabled");}, %d);',
-                                      ('enfant' == $this->_loto_id) ? 6500 : 4000));
+                                      ('enfant' == $this->_loto_id) ? static::$_enfant_timeout : static::$_adulte_timeout));
 
         return $this->_tag('main', $this->_container($this->_row($content)));
     }
@@ -414,7 +417,7 @@ new Masonry(ul);
                                                  ['class' => 'card-body'])
                                    . $this->_tag('div',
                                                  $this->_tag('small', $donation[2] ?? ''),
-                                                 ['class' => 'card-footer price']),
+                                                 ['class' => 'card-footer price d-none']),
                                    ['class' => 'card border-dark m-1']);
 
         return $this->_tag('div',

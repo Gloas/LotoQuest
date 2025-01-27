@@ -6,7 +6,7 @@ main * {
     white-space: pre-wrap;
 }
 nav {
-    * margin-top: 120px;
+     margin-top: 120px;
 }
 
 .current_number {
@@ -53,7 +53,7 @@ table td {
 
 .masonry_img {
     object-fit: cover;
-    background-color: white;
+    background-color: #fff;
 }
 
 h1.thanks_title {
@@ -68,8 +68,16 @@ p.show_desc {
     font-size: 1.5vw;
 }
 
-.pas_de_bol .card,
-.gros_lot .card {
+.pas_de_bol .card-group .card,
+.gros_lot .card-group .card {
+    width: 25vw;
+    max-width: unset;
+    box-shadow: 0px 0px 30px #000;
+
+}
+
+.pas_de_bol .card-group .card:first-child:last-child,
+.gros_lot .card-group .card:first-child:last-child {
     width: 30vw;
 }
 
@@ -91,9 +99,8 @@ p.show_desc {
 .fa-stopwatch,
 .timer,
 .prix {
-    text-shadow: 0px 0px 15px white;
+    text-shadow: 0px 0px 15px #fff;
 }
-
 
 .dropdown-item.active, .dropdown-item:active {
     color: unset;
@@ -137,6 +144,11 @@ p.show_desc {
 
 li.nav-item a {
     font-size: 24px;
+}
+
+li.nav-item a.dropdown-item
+{
+    font-size: 20px;
 }
 
 h1.navbar-text {
@@ -212,7 +224,6 @@ a.navbar-brand {
     animation-iteration-count: 1;
     z-index: -1;
     transition-property: width;
-    transition-timing-function: linear;
 
 }
 
@@ -296,6 +307,7 @@ body .table-bordered > :not(caption) td{
     height: 400px;
 }
 
+.pas_de_bol main,
 .gros_lot main {
     background-size: cover;
     background-position-x: center;
@@ -307,11 +319,21 @@ body .table-bordered > :not(caption) td{
     background-image: url('gros_lot_bg.jpg');
 }
 
+.adulte.pas_de_bol main {
+    background-image: url('pas_de_bol_adulte.jpg');
+}
+
 .enfant.gros_lot main {
     background-image: url('gros_lot_enfant_bg.jpg');
+    background-position-y: -200px;
 }
 
 body.gros_lot button {
-    color: white;
+    color: #fff;
     text-shadow: 5px 5px 5px black;
+}
+
+body.pas_de_bol main .table-bordered,
+body.gros_lot main .table-bordered {
+    background-color: rgba(0,0,0, 0.4) ;
 }
