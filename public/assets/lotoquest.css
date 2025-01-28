@@ -113,9 +113,9 @@ p.show_desc {
     background-color: #f0f71d;
 }
 
-.surprise_violet,
-.surprise_violet footer,
-.surprise_violet main {
+.surprise_violette,
+.surprise_violette footer,
+.surprise_violette main {
     background-color: #6e03ba;
 }
 
@@ -337,6 +337,11 @@ body .table-bordered > :not(caption) td{
 
 .enfant.gros_lot main {
     background-image: url('gros_lot_enfant_bg.jpg');
+    background-position-y: -200px;
+}
+
+.enfant.pas_de_bol main {
+    background-image: url('pas_de_bol_enfant.jpg');
     background-position-y: -200px;
 }
 
