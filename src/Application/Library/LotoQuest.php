@@ -345,7 +345,16 @@ new Masonry(ul);
                                                     $spectacle->getShowDesc(),
                                                     ['class' => 'show_desc pt-3 col-8 d-inline-block text-start']),
                                         'col-7'),
-            'row g-0 align-items-center justify-content-center');
+            'row g-0 align-items-center justify-content-center')
+
+            . $this->_row($this->_col($this->_tag('figure',
+                                                  $this->_tag('figcaption', 'En avant la musique !')
+                                                  . $this->_tag('audio', '', ['controls' => 1,
+                                                                              'onplay' => 'startFireworks(this);',
+                                                                              'onpause' => 'stopFireworks(this);',
+                                                                              'src' => $this->_url('assets/music/magic_in_the_air_kidsbop.webm', true)])),
+                                      'col-6 text-center pt-5'),
+                          'row g-0 align-items-center justify-content-center');
 
         return $this->_tag('main',
                            $this->_container($content));
@@ -709,6 +718,13 @@ var timerInterval = setInterval(startTimer, 1000);
 
         $html [] = $this->_tag('script', '', ['src' => BASE_PATH . '/assets/bootstrap.bundle.min.js']);
         $html [] = $this->_tag('script', '', ['src' => BASE_PATH . '/assets/masonry.pkgd.min.js']);
+
+        if ($this->_spectacle)
+        {
+            $html [] = $this->_tag('script', '', ['src' => BASE_PATH . '/assets/fireworks.js']);
+            $html [] = $this->_tag('script', '', ['src' => BASE_PATH . '/assets/start_fireworks.js']);
+        }
+
         return $this->_tag('footer', implode($html), ['class' => '']);
     }
 
