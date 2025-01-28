@@ -119,6 +119,8 @@ class SortedDonations
     {
         return (0 === strpos($row_as_string, 'partie '))
             || (0 === strpos($row_as_string, 'gros lot'))
+            || (0 === strpos($row_as_string, 'surprise violet'))
+            || (0 === strpos($row_as_string, 'surprise jaune'))
             || (0 === strpos($row_as_string, 'surprise verte'))
             || (0 === strpos($row_as_string, 'surprise bleu'))
             || (0 === strpos($row_as_string, 'surprise rouge'))
@@ -150,7 +152,13 @@ class SortedDonations
         if (!$in_partie)
             return false;
 
-        if ( in_array($partie_id, ['gros_lot', 'pas_de_bol', 'surprise_bleu', 'surprise_rouge', 'surprise_verte']))
+        if ( in_array($partie_id, ['gros_lot',
+                                   'pas_de_bol',
+                                   'surprise_jaune',
+                                   'surprise_violet',
+                                   'surprise_bleu',
+                                   'surprise_rouge',
+                                   'surprise_verte']))
             return 0 === strpos($row_as_string, str_replace('_', ' ', strtolower($partie_id)));
 
         return 0 === strpos($row_as_string, strtolower('partie ' . $loto_id . ' n°'. $partie_id));

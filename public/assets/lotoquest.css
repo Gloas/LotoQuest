@@ -107,6 +107,18 @@ p.show_desc {
     background-color: unset;
 }
 
+.surprise_jaune,
+.surprise_jaune footer,
+.surprise_jaune main {
+    background-color: #f0f71d;
+}
+
+.surprise_violet,
+.surprise_violet footer,
+.surprise_violet main {
+    background-color: #6e03ba;
+}
+
 .surprise_verte,
 .surprise_verte footer,
 .surprise_verte main {
