@@ -90,7 +90,6 @@ Papo'thé,Ines,"4,50 €",carnet de coloriage Clairefontaine,Adulte,Mix,papothe.
 ,,,,,,
 ,,"991,26 €",,,,
 ,,,,,,
-,,,,,,
 Intermarché Peron,Ines,"2,20 €",Tarot 78 cartes,Adulte,Mix,
 Val Thoiry,Anelyne ,"5,00 €",Sac de courses,Adulte,,
 Papo'thé,Ines,"3,25 €",pinceau alimentaire ,Adulte,Mix,
@@ -137,8 +136,8 @@ Intermarché Peron,Ines,"50,00 €",Carafe filtrante et six cartouches,Adulte,Mi
 L'Or au juste prix,Julia,"20,00 €",Carte parrainage parrain et filleul,Adulte,Mix,or.svg
 La grande evasion escape game,Laureline,"25,00 €",Une entrée,Adulte,,la_grande_evasion_escape_game.png
 Les Mains d’Aël,Ines,"70,00 €",lot de trois bougies et petits macarons,Adulte,,ael.jpg
-Mise de,,"226,00 €",/ 350€ pour cette manche,,,
 Mon'ts Immobilier Cristel Limousin ,Cécile,"120,00 €",Une soirée apéro quiz 6 personnes,Adulte,,mon_ts_immobilier.jpg
+Mise de,,"346,00 €",/ 350€ pour cette manche,,,
 ,,,,,,
 ,,,,,,
 Partie Adulte n°2,,,,,,
@@ -188,9 +187,10 @@ Double-quine,,,,,,
 APE de Valleiry,Ines,"74,97 €",Pack Enceinte écho dot,Adulte,,ape.png
 "Charlotte, maman de l'école",Charlotte,"73,00 €",Coffret L'occitane ,Adulte,,occitane.jpg
 Gesmier Valleiry ,Violaine,"20,00 €",Bon d'achat,Adulte,Mix,gesmier.png
+La Salle,Ines,"35,00 €",Deux semaines d'accès avec cours,Adulte,Mix,la_salle.png
 La savonnerie du Vuache ,Julia ,"10,00 €",Deux savons,Adulte,,savonnerie_du_vuache.jpg
 N2 friperie,Julia,"15,00 €",un bon d'achat,Adulte,Mix,n2.jpg
-Mise de,,"192,97 €",/ 200€ pour cette manche,,,
+Mise de,,"227,97 €",/ 200€ pour cette manche,,,
 ,,,,,,
 Carton,,,,,,
 APE de Valleiry,Ines,"259,99 €",Balais aspirateur sans fil,Adulte,,ape.png
@@ -317,16 +317,16 @@ Val Thoiry,Anelyne ,"5,00 €",Sac de courses,Adulte,,val-thoiry-logo.png
 Mise de,,"102,00 €",/ 100€ pour cette manche,,,
 ,,,,,,
 Double-quine,,,,,,
-Atelier des mozzas,Laureline,"32,00 €",Bon pour deux burguers à emporter ,Adulte,,
+Atelier des mozzas,Laureline,"16,00 €",Bon pour un burger à l’emporter ,Adulte,,mozza.jpg
 Bosson Valleiry ,Violaine,"30,00 €",Bon d'achat ,Adulte,Mix,bosson.jpg
 Brasserie Adennes ,Ines,"50,00 €",Une bouteille ,Adulte,,adennes.jpg
-Bulle de pion,Olivier,"12,90 €","Livre : ""Le cauchemar d’Innsmouth""",Adulte,,
+Bulles de Pions,Olivier,"12,90 €","Livre : ""Le cauchemar d’Innsmouth""",Adulte,,bulles_de_pions.svg
 La grande evasion escape game,Laureline,"25,00 €",Une entrée,Adulte,,la_grande_evasion_escape_game.png
 Laser Maxx,Anelyne ,"22,00 €","Deux entrées ""Laser Maxx""",Adulte,,laser_maxx.jpg
 Onglissime,Ines,"8,50 €",Une crème pour les mains,Adulte,,onglissime.webp
 Papo'thé,Ines,"26,99 €",classeur de recettes (Draeger),Adulte,,papothe.jpg
 Val Thoiry,Anelyne ,"5,00 €",Sac de courses,Adulte,,val-thoiry-logo.png
-Mise de,,"212,39 €",/ 200€ pour cette manche,,,
+Mise de,,"196,39 €",/ 200€ pour cette manche,,,
 ,,,,,,
 Carton,,,,,,
 APE de Valleiry,Carmen,"84,00 €",Deux places pour Wallibi,Adulte,Mix,ape.png
@@ -409,7 +409,7 @@ Glam's,Anelyne,"10,00 €",Collier Bobochic,Adulte,,ape.png
 Intermarché Peron,Ines,"40,00 €",Poêle 24cm Tefal Cook Eat,Adulte,Mix,intermarche_peron.jpg
 Musée musique mécanique ,Cécile,"16,00 €",Une entrée adulte et une entrée enfant,Adulte,,mechanical_music.jpg
 Onglissime,Ines,"8,50 €",Une crème pour les mains,Adulte,,onglissime.webp
-Photographe Christophe Batagliero,Ines,"150,00 €","Bienvenue à cette nouvelle édition du Loto de l’Association des Parents d’Élèves de Valleiry !\nPour ouvrir cet événement sous le signe de la convivialité et de la bonne humeur, nous avons le plaisir de vous présenter Les Prim’s de Valleiry !\nCes jeunes talents, élèves de l’école, nous offrent un spectacle de cheerleaders haut en couleurs.\nPleins d’énergie et de créativité, ils se produisent pour célébrer le dynamisme de notre école, de notre village et de notre association.\nAlors, applaudissons-les chaleureusement et profitons ensemble de ce beau moment !",Adulte,,cb.jpg
+Photographe Christophe Batagliero,Ines,"150,00 €",Une séance photo en famille ou individuelle,Adulte,,cb.jpg
 Suko Sushi,Julia,"10,00 €",Bon d'achat,Adulte,Mix,suko.png
 Mise de,,"340,40 €",/ 350€ pour cette manche,,,
 ,,,,,,
@@ -427,9 +427,10 @@ Mise de,,"97,64 €",/ 100€ pour cette manche,,,
 Double-quine,,,,,,
 "Charlotte, maman de l'école",Charlotte,"73,00 €",Coffret L'occitane ,Adulte,,occitane.jpg
 Gamm vert,Ines,"35,00 €",Une boîte à biscuits ,Adulte,,gamm_vert.jpg
+La Salle,Ines,"35,00 €",Deux semaines d'accès avec cours,Adulte,Mix,la_salle.png
 La singulière,Ines,"32,00 €",Un fouetté karité monoï et un savon,Adulte,,ape.png
 le CAB,Ines,"40,00 €",Deux entrées au Macumback,Adulte,,cab.png
-Mise de,,"180,00 €",/ 200€ pour cette manche,,,
+Mise de,,"215,00 €",/ 200€ pour cette manche,,,
 ,,,,,,
 Carton,,,,,,
 APE de Valleiry,Ines,"159,99 €",Air fryer,Adulte,,ape.png
@@ -479,9 +480,9 @@ surprise jaune,,,,,,
 Carton,,,,,,
 BioFrais,Ghislain,"28,00 €",Panier garni,Adulte,,bio_frais.jpg
 Café du Rhône resto,Ines,"23,00 €",Une bouteille Côtes du Rhône ,Adulte,,cafe-du-rhone.jpg
-Fromagerie Masson,Ines,"30,00 €",Fromages,Adulte,,masson.svg
+Fromagerie Masson,Ines,"150,00 €",Fromages,Adulte,,masson.svg
 Servette Football Club,Ines,"180,00 €",Deux places pour un match de Championnat Suisse au stade de la Praille + deux écharpes,Adulte,Mix,servette_fc.png
-Mise de,,"261,00 €",/ 350,,,
+Mise de,,"381,00 €",/ 350,,,
 ,,,,,,
 Entracte,3,"3,00 €",10,,,
 ,,,,,,
@@ -591,7 +592,7 @@ Quine,,,,,,
 Aloya,Ines,"19,99 €",Machine Expresso en bois,Enfant,,aloya.jpg
 Aloya,Ines,"19,99 €",Création de toiles abstraites crea pouring,Enfant,,aloya.jpg
 APE de Valleiry,Ines,"10,00 €",raquettes de ping-pong + balles,Enfant,Mix,ape.png
-Les aigles du Léman ,Laureline,"24,00 €",Deux entrées enfant,Enfant,Mix,
+Les aigles du Léman ,Laureline,"24,00 €",Deux entrées enfant,Enfant,Mix,les_aigles_du_leman.jpg
 Micromania,Anelyne ,"10,00 €",Poster Pokemon,Enfant,,micromania.png
 Periot Florence ,Anelyne ,"35,00 €","Une création en bois, veilleuse renard",Enfant,Mix,ape.png
 Tabac Viry,Violaine,"5,00 €",Panoplie de bijoux fantaisie ,Enfant,Fille,tabac_viry.jpg
@@ -614,7 +615,7 @@ Elevation Indoor,Laureline,"25,00 €",Une entrée,Enfant,Mix,elevation_indoor.j
 Inès ,Ines,"30,00 €",Pikachu à construire,Enfant,Mix,ape.png
 Intermarché Peron,Ines,"50,00 €",Hélicoptère des pompiers - PLAYMOBIL,Enfant,Mix,intermarche_peron.jpg
 L’anessens,Anelyne ,"50,00 €","Prestation ""Essentiel"" enfant-parent",Enfant,Mix,anessens.jpg
-Tabac Viry ,Violaine,"8,47 €",Trousse Lama rose,Enfant,Fille,
+Tabac Viry ,Violaine,"8,47 €",Trousse Lama rose,Enfant,Fille,tabac_viry.jpg
 Papo'thé,Ines,"18,70 €",lot pâte fimo moule silicone + lames Cernit Accesories,Enfant,Fille,papothe.jpg
 Parc Filenvol,Laureline,"50,00 €",Deux entrées,Enfant,Mix,filenvol.png
 Mise de,,"232,17 €",/ 200€ pour cette manche,,,
