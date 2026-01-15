@@ -94,7 +94,7 @@ class LotoQuest
         if ( !file_exists($this->_memory_file))
             touch($this->_memory_file);
 
-        $this->_number_table_in_memory = array_map('str_getcsv', file($this->_memory_file));
+        $this->_number_table_in_memory = array_map(fn($row) => str_getcsv($row, escape: '\\'), file($this->_memory_file));
         return $this;
     }
 
@@ -151,16 +151,18 @@ class LotoQuest
 
         foreach ($loto_ids as $loto_id)
             $links [] = $this->_tag('li',
+                                    $this->_tag('div',
                                     $this->_anchor('#',
                                                    $this->_lotoIco($loto_id) . 'Loto ' . $loto_id,
                                                    ['class' => 'btn py-1 dropdown-toggle'
                                                     . $this->_active(sprintf('/%s/', $loto_id)),
                                                     'data-bs-toggle' => 'dropdown',
                                                     'role' => 'button',
-                                                    'data-toggle' => 'dropdown',
+                                                    'id' => 'dropdownMenuLink' . $loto_id,
                                                     'aria-expanded' => 'false'])
                                     . $this->_dropdownMenu($loto_id),
-                                    ['class' => 'nav-item dropdown']);
+                                                ['class' => 'dropdown']),
+                                                ['class' => 'nav-item']);
 
         $title = '';
         if ( $this->_partie_id && ! $this->_outro && ! $this->_intro && ! $this->_spectacle)
@@ -235,7 +237,8 @@ class LotoQuest
 
         return $this->_tag('ul',
                            implode($links),
-                           ['class' => 'dropdown-menu']);
+                           ['class' => 'dropdown-menu',
+                            'aria-labelledby' => 'dropdownMenuLink' . $loto_id]);
     }
 
 
@@ -531,11 +534,15 @@ var timerInterval = setInterval(startTimer, 1000);
 
         if ( in_array($partie_id, ['gros_lot',
                                    'pas_de_bol',
+				   'surprise_turquoise',
+				   'surprise_rose',
                                    'surprise_jaune',
                                    'surprise_violette',
+                                   'surprise_violet',
                                    'surprise_bleu',
                                    'surprise_verte',
-                                   'surprise_rouge']))
+                                   'surprise_rouge',
+				   ]))
             $rounds = ['carton'];
 
 

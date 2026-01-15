@@ -20,7 +20,7 @@ class SortedDonations
     public function __construct()
     {
         $this->_sorted_donations_array =
-            array_map('str_getcsv',
+            array_map(fn($row) => str_getcsv($row, escape: '\\'),
                       file(__DIR__ . '/../../../public/assets/loto.csv'));
     }
 
@@ -117,9 +117,13 @@ class SortedDonations
 
     protected function _isNotForNextRound(string $row_as_string): bool
     {
+        $row_as_string = strtolower($row_as_string);
         return (0 === strpos($row_as_string, 'partie '))
             || (0 === strpos($row_as_string, 'gros lot'))
+	    || (0 === strpos($row_as_string, 'surprise rose'))
+	    || (0 === strpos($row_as_string, 'surprise turquoise'))
             || (0 === strpos($row_as_string, 'surprise violette'))
+            || (0 === strpos($row_as_string, 'surprise violet'))	
             || (0 === strpos($row_as_string, 'surprise jaune'))
             || (0 === strpos($row_as_string, 'surprise verte'))
             || (0 === strpos($row_as_string, 'surprise bleu'))
@@ -155,6 +159,9 @@ class SortedDonations
         if ( in_array($partie_id, ['gros_lot',
                                    'pas_de_bol',
                                    'surprise_jaune',
+				   'surprise_violet',
+				   'surprise_rose',
+				   'surprise_turquoise',
                                    'surprise_violette',
                                    'surprise_bleu',
                                    'surprise_rouge',

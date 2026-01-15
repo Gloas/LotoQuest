@@ -48,7 +48,7 @@ table td {
 }
 
 [class*="surprise"] .reveal {
-    margin-top: -200px;
+#    margin-top: -100px;
 }
 
 .masonry_img {
@@ -119,6 +119,12 @@ p.show_desc {
     background-color: #6e03ba;
 }
 
+.surprise_violet,
+.surprise_violet footer,
+.surprise_violet main {
+    background-color: #6e03ba;
+}
+
 .surprise_verte,
 .surprise_verte footer,
 .surprise_verte main {
@@ -135,6 +141,18 @@ p.show_desc {
 .surprise_rouge footer,
 .surprise_rouge main {
     background-color: #c95252;
+}
+
+.surprise_rose,
+.surprise_rose footer,
+.surprise_rose main {
+    background-color: #e594ef;
+}
+
+.surprise_turquoise,
+.surprise_turquoise footer,
+.surprise_turquoise main {
+    background-color: #00ffff;
 }
 
 .card-group .card .card-img-top {
@@ -329,21 +347,21 @@ body .table-bordered > :not(caption) td{
 }
 
 .adulte.gros_lot main {
-    background-image: url('gros_lot_bg.jpg');
+*    background-image: url('gros_lot_bg.jpg');
 }
 
 .adulte.pas_de_bol main {
-    background-image: url('pas_de_bol_adulte.jpg');
+*    background-image: url('pas_de_bol_adulte.jpg');
 }
 
 .enfant.gros_lot main {
-    background-image: url('gros_lot_enfant_bg.jpg');
-    background-position-y: -200px;
+*    background-image: url('gros_lot_enfant_bg.jpg');
+*    background-position-y: -200px;
 }
 
 .enfant.pas_de_bol main {
-    background-image: url('pas_de_bol_enfant.jpg');
-    background-position-y: -200px;
+*    background-image: url('pas_de_bol_enfant.jpg');
+*    background-position-y: -200px;
 }
 
 body.pas_de_bol .percent,
