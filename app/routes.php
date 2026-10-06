@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
 use App\Application\Actions\Home\ViewHomeAction;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 use Slim\App;
-use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 if ( !defined('BASE_PATH'))
     define('BASE_PATH', rtrim((string) ($_ENV['LOTOQUEST_BASE_PATH'] ?? getenv('LOTOQUEST_BASE_PATH') ?: ''), '/'));
@@ -28,11 +25,6 @@ return function (App $app) {
     $app->get('/', function (Request $request, Response $response) {
         $home = new ViewHomeAction;
         return $home($request, $response);
-    });
-
-    $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
     });
 
     $app->get('/outro', function (Request $request, Response $response) {

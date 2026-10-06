@@ -9,3 +9,4 @@
 /csv/*/*.csv
 /var/cache/*
 !/var/cache/.gitignore
+/.phpunit.cache/
