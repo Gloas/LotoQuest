@@ -3,6 +3,8 @@
 [![Tests](https://github.com/Gloas/lotoquest/actions/workflows/tests.yml/badge.svg)](https://github.com/Gloas/lotoquest/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+*[Version française](README.fr.md)*
+
 LotoQuest runs a charity bingo night (*loto*) on a projector: number drawing, the 1–90 board, the prizes of each round,
 intermissions, a show and the closing thanks. It was written for the loto of the APE (parents' association) of
 Valleiry and used for the 2024, 2025 and 2026 editions.

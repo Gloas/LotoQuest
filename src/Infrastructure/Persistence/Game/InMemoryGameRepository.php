@@ -18,14 +18,11 @@ class InMemoryGameRepository implements GameRepository
     /**
      * @param Game[]|null $users
      */
-    public function __construct(array $users = null)
+    public function __construct(?array $users = null)
     {
         $this->users = $users ?? [
-            1 => new Game(1, 'bill.gates', 'Bill', 'Gates'),
-            2 => new Game(2, 'steve.jobs', 'Steve', 'Jobs'),
-            3 => new Game(3, 'mark.zuckerberg', 'Mark', 'Zuckerberg'),
-            4 => new Game(4, 'evan.spiegel', 'Evan', 'Spiegel'),
-            5 => new Game(5, 'jack.dorsey', 'Jack', 'Dorsey'),
+            1 => new Game(1, '2026-01-17', 'adulte'),
+            2 => new Game(2, '2026-01-17', 'enfant'),
         ];
     }
 
