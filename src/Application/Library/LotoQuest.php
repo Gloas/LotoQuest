@@ -614,7 +614,7 @@ var timerInterval = setInterval(startTimer, 1000);
             return false;
 
         $fp = fopen($this->_memoryFilePath(), 'a');
-        fputcsv($fp, [$this->_random_number]);
+        fputcsv($fp, [$this->_random_number], escape: '\\');
         fclose($fp);
 
         $this->_response = $this->_response
