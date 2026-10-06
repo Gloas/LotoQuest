@@ -23,7 +23,7 @@
         "php-di/php-di": "^6.4 || ^7.0",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.15.3",
-        "twbs/bootstrap": "5.3.2"
+        "twbs/bootstrap": "5.3.3"
     },
     "require-dev": {
         "jangregor/phpstan-prophecy": "^1.0.0",
