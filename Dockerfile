@@ -6,7 +6,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --optimize-autoloader
 
 
-FROM php:8.4-apache
+FROM php:8.5-apache
 
 # Slim needs mod_rewrite and the .htaccess files, served from public/
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
