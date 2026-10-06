@@ -2,121 +2,75 @@
 
 declare(strict_types=1);
 
-namespace Tests\Application\Actions;
+namespace Tests\Application\Actions\Home;
 
-use DI\Container;
-use Tests\TestCase;
-use App\Application\Actions\Home;
-
-
-abstract class LotoQuestTestCase extends TestCase {
-    protected string $_body = '';
-
-
-    protected function _dispatch(string $url, array $params = []): self
-    {
-        $app = $this->getAppInstance();
-        $response = $app->handle($this->createRequest('GET', $url));
-        $this->_body = (string) $response->getBody();
-        return $this;
-    }
-
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-        $this->_dispatch('/reset');
-    }
-}
-
-
-
+use Tests\Application\Actions\LotoQuestTestCase;
 
 class HomeActionTest extends LotoQuestTestCase
 {
-
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
-
         $this->_dispatch('/');
     }
 
 
-    public function testBootstrapMinCssIsLoaded()
+    public function testBootstrapMinCssIsLoaded(): void
     {
         $this->assertStringContainsString('bootstrap.min.css', $this->_body);
     }
 
 
-    public function testBootstrapBundleMinJsIsLoaded()
+    public function testBootstrapBundleMinJsIsLoaded(): void
     {
         $this->assertStringContainsString('bootstrap.bundle.min.js', $this->_body);
     }
 
 
-    public function testAnchorTirerUnNombreIsInBody()
+    public function testNavIsInBody(): void
     {
-        $this->_dispatch('/enfant/3/double_quine');
-        $this->assertStringContainsString('Tirer un nombre', $this->_body);
+        $this->assertStringContainsString('navbar navbar-expand-lg', $this->_body);
     }
 
 
-    public function testNavIsInBody()
+    public function testMenuListsEveryLotoOfTheSheet(): void
     {
-        $this->assertStringContainsString('navbar navbar-expand-lg bg-primary p-0', $this->_body);
+        $this->assertStringContainsString('Loto adulte', $this->_body);
+        $this->assertStringContainsString('Loto enfant', $this->_body);
     }
 
 
-    public function testNumberTableShouldNotBePresent()
+    public function testMenuLinksToParties(): void
     {
-        $this->assertStringNotContainsString('table table-primary text-center', $this->_body);
+        $this->assertStringContainsString('href="/adulte/1/quine"', $this->_body);
+        $this->assertStringContainsString('href="/adulte/surprise_rouge/carton"', $this->_body);
+        $this->assertStringContainsString('href="/adulte/entracte_d_10_20"', $this->_body);
+        $this->assertStringContainsString('href="/enfant/gros_lot/carton"', $this->_body);
     }
 
 
-    public function testCurrentNumberShouldNotBePresent()
+    public function testHomeShowsWallOfDonatorsLogos(): void
+    {
+        $this->assertStringContainsString('masonry', $this->_body);
+        $this->assertStringContainsString('/assets/logo/garage.png', $this->_body);
+        $this->assertStringContainsString('/assets/logo/console.png', $this->_body);
+    }
+
+
+    public function testHomeShowsResetButton(): void
+    {
+        $this->assertStringContainsString('Réinitialiser les tirages', $this->_body);
+    }
+
+
+    public function testNumberTableShouldNotBePresent(): void
+    {
+        $this->assertStringNotContainsString('<table', $this->_body);
+    }
+
+
+    public function testCurrentNumberShouldNotBePresent(): void
     {
         $this->assertStringNotContainsString('current_number', $this->_body);
-    }
-
-
-    public function testWithRandomParamOneNumberTableShouldBePresent()
-    {
-        $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('table table-bordered table-primary text-center', $this->_body);
-    }
-
-
-    public function testWithRandomParamOneCurrentNumberShouldBePresent()
-    {
-        $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('mb-1 pb-1 bg-primary rounded current_number d-inline-block', $this->_body);
-    }
-
-
-    public function testWithRandomParamCurrentNumberInTableShouldBePresent()
-    {
-        $this->_dispatch('/adulte/1/quine/random');
-        $this->assertStringContainsString('p-0 current_number_in_table bg-primary fw-bold', $this->_body);
-    }
-
-
-    public function testWithResetParamShouldReset()
-    {
-        $this->_dispatch('/reset');
-        $this->assertStringContainsString('Loto', $this->_body);
-    }
-
-
-    public function testWithEntracteShouldShowDonators()
-    {
-        $this->_dispatch('/adulte/entracte_10_minutes_prix_3');
-        $this->assertStringContainsString('Loto', $this->_body);
-    }
-
-
-    public function testWithOutroShouldShowDonatorsPng()
-    {
-        $this->_dispatch('/outro');
-        $this->assertStringContainsString('Loto', $this->_body);
     }
 }

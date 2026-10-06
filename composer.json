@@ -1,34 +1,28 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
+    "name": "gloas/lotoquest",
+    "description": "LotoQuest: a web app to run a charity bingo (loto) night, with number drawing, prize walls, intermissions, show and closing screens.",
+    "type": "project",
     "keywords": [
-        "microframework",
-        "rest",
-        "router",
-        "psr7"
+        "loto",
+        "bingo",
+        "charity",
+        "slim"
     ],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "homepage": "https://github.com/Gloas/lotoquest",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        },
-        {
-            "name": "Pierre Berube",
-            "email": "pierre@lgse.com",
-            "homepage": "http://www.lgse.com/"
+            "name": "Ghislain Loas"
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.2",
         "ext-json": "*",
         "akrabat/rka-slim-session-middleware": "^3.0",
-        "monolog/monolog": "^2.8",
-        "php-di/php-di": "^6.4",
+        "monolog/monolog": "^2.8 || ^3.0",
+        "php-di/php-di": "^6.4 || ^7.0",
         "slim/psr7": "^1.5",
-        "slim/slim": "^4.10",
+        "slim/slim": "^4.15.3",
         "twbs/bootstrap": "5.3.2"
     },
     "require-dev": {
@@ -36,12 +30,15 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/extension-installer": "^1.2.0",
         "phpstan/phpstan": "^1.8",
-        "phpunit/phpunit": "^9.5.26",
-        "squizlabs/php_codesniffer": "^3.7"
+        "phpunit/phpunit": "^9.6.33",
+        "squizlabs/php_codesniffer": "^3.13.6"
     },
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true
+        },
+        "platform": {
+            "php": "8.2.0"
         },
         "process-timeout": 0,
         "sort-packages": true
@@ -58,6 +55,12 @@
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",
-        "test": "phpunit"
+        "test": "phpunit",
+        "analyse": "phpstan analyse",
+        "lint": "phpcs"
+    },
+    "support": {
+        "issues": "https://github.com/Gloas/lotoquest/issues",
+        "source": "https://github.com/Gloas/lotoquest"
     }
 }

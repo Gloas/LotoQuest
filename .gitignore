@@ -5,6 +5,7 @@
 /logs/*
 !/logs/README.md
 .phpunit.result.cache
-*.lock
 *~
-/csv/*
+/csv/*/*.csv
+/var/cache/*
+!/var/cache/.gitignore

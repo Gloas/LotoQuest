@@ -31,21 +31,32 @@ class LotoQuest
     protected string $_round_id;
     protected bool $_pick_a_random_number;
     protected string $_outro;
-    protected Partie $_partie_spectacle;
-    protected Partie $_partie_outro;
-    protected Partie $_partie_intro;
+    protected ?Partie $_partie_spectacle = null;
+    protected ?Partie $_partie_outro = null;
+    protected ?Partie $_partie_intro = null;
 
 
     public static function resetParties(Request $request): void
     {
         $cookies = $request->getCookieParams();
-        $cookie_id = (string) reset($cookies);
+        $prefix = static::_sanitizeCookieId((string) reset($cookies)) . '_';
 
-        $adults_files = glob(__DIR__ . '/../../../csv/adulte/*');
-        $kids_files = glob(__DIR__ . '/../../../csv/enfant/*');
-        foreach(array_merge($adults_files, $kids_files) as $file)
-            if (is_file($file) && (false !== strpos($file, $cookie_id)))
+        // only remove the draws of the current session
+        foreach(glob(Paths::drawsDir() . '/*/*.csv') ?: [] as $file)
+            if (is_file($file) && (0 === strpos(basename($file), $prefix)))
                 unlink($file);
+    }
+
+
+    protected static function _sanitizeId(string $id): string
+    {
+        return preg_match('/^[a-z0-9_-]+$/i', $id) ? $id : '';
+    }
+
+
+    protected static function _sanitizeCookieId(string $id): string
+    {
+        return (string) preg_replace('/[^a-z0-9]/i', '', $id);
     }
 
 
@@ -54,9 +65,9 @@ class LotoQuest
         $this->_request = $request;
         $this->_response = $response;
         $this->_args = $args;
-        $this->_loto_id = $args['loto'] ?? '';
-        $this->_partie_id = $args['partie_id'] ?? '';
-        $this->_round_id = $args['round_name'] ?? '';
+        $this->_loto_id = static::_sanitizeId((string) ($args['loto'] ?? ''));
+        $this->_partie_id = static::_sanitizeId((string) ($args['partie_id'] ?? ''));
+        $this->_round_id = static::_sanitizeId((string) ($args['round_name'] ?? ''));
         $this->_pick_a_random_number = ($args['random'] ?? '') === 'random';
         $this->_entracte = (0 === strpos($this->_partie_id, 'entracte')) ? $this->_partie_id : '';
         $this->_outro = (0 === strpos($this->_partie_id, 'outro')) ? $this->_partie_id : '';
@@ -85,17 +96,26 @@ class LotoQuest
         if ( ! $this->_partie_id)
             return $this;
 
-        $this->_memory_file = __DIR__ . '/../../../csv/'
-            . $this->_loto_id
-            . '/'
-            . $this->_cookieId() . '_' . $this->_partie_id
-            . '.csv';
+        $this->_memory_file = $this->_memoryFilePath();
+
+        if ( !is_dir(dirname($this->_memory_file)))
+            mkdir(dirname($this->_memory_file), 0775, true);
 
         if ( !file_exists($this->_memory_file))
             touch($this->_memory_file);
 
         $this->_number_table_in_memory = array_map(fn($row) => str_getcsv($row, escape: '\\'), file($this->_memory_file));
         return $this;
+    }
+
+
+    protected function _memoryFilePath(): string
+    {
+        return sprintf('%s/%s/%s_%s.csv',
+                       Paths::drawsDir(),
+                       $this->_loto_id,
+                       $this->_cookieId(),
+                       $this->_partie_id);
     }
 
 
@@ -138,7 +158,7 @@ class LotoQuest
     protected function _cookieId(): string
     {
         $cookies = $this->_request->getCookieParams();
-        return (string) reset($cookies);
+        return static::_sanitizeCookieId((string) reset($cookies));
     }
 
 
@@ -264,7 +284,7 @@ class LotoQuest
                                            $this->_ico('fa-solid fa-eye') . 'Voir les lots ?',
                                            ['onclick' => htmlspecialchars('document.querySelector(\'.donators_row\').style.visibility = "visible"; document.querySelector(\'.reveal\').style.visibility = "hidden"'),
                                             'class' => 'btn btn-lg btn-dark reveal fs-1 mb-3']),
-                            'col-12');
+                            'col-12 reveal');
 
 
         if ($donators && (! $this->_loto_id || $this->_entracte))
@@ -286,9 +306,9 @@ new Masonry(ul);
                 $this->_col($this->_tag('span',
                                         $this->_showNumber() ,
                                         ['class' => 'mb-1 pb-1 rounded current_number d-inline-block']),
-                            'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 p-lg-5')
+                            'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 p-lg-1')
                 . $this->_col($this->_numberTable(),
-                              'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 pb-5 p-lg-5');
+                              'col col-12 col-lg-6 mb-3 mb-lg-0 p-1 pb-5 p-lg-1');
 
         if ( $this->_round_id)
             $content .= $this->_col($this->_anchor($this->_url('random'),
@@ -417,7 +437,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    (($donation[6] ?? '')
                                     ? $this->_tag('img', '',
-                                                  ['src' => BASE_PATH . '/assets/logo/' . $donation[6] ?? '' ,
+                                                  ['src' => BASE_PATH . '/assets/logo/' . ($donation[6] ?? '') ,
                                                    'class' => 'card-img-top'])
                                     : '')
                                    . $this->_tag('div',
@@ -446,7 +466,7 @@ new Masonry(ul);
         foreach($donations as $donation)
             $html [] = $this->_tag('div',
                                    $this->_tag('div',
-                                               $this->_tag('img', '', ['src' => BASE_PATH . '/assets/logo/' . $donation[6] ?? '',
+                                               $this->_tag('img', '', ['src' => BASE_PATH . '/assets/logo/' . ($donation[6] ?? ''),
                                                                        'alt' => $donation[0] ?? '',
                                                                        'class' => 'card-img masonry_img']),
                                                ['class' => 'card p-1 bg-transparent border-0']),
@@ -474,7 +494,7 @@ new Masonry(ul);
             $html [] = $this->_tag('div',
                                    $this->_tag('span', $donation[0] ?? '', ['class' => 'd-block w-100'])
                                    . (($donation[6] ?? '')
-                                      ? $this->_tag('img', '', ['src' => BASE_PATH . '/assets/logo/' . $donation[6] ?? '' ,
+                                      ? $this->_tag('img', '', ['src' => BASE_PATH . '/assets/logo/' . ($donation[6] ?? '') ,
                                                                 'class' => 'd-block w-100'])
                                       : ''),
                                    ['class' => 'carousel-item' . (0 == count($html) ? ' active' : '')]);
@@ -593,10 +613,7 @@ var timerInterval = setInterval(startTimer, 1000);
         if ($this->_isNumberInMemory($this->_random_number))
             return false;
 
-        $fp = fopen(sprintf('%s/../../../csv/%s/%s.csv',
-                            __DIR__,
-                            $this->_loto_id,
-                            $this->_cookieId() . '_' . $this->_partie_id), 'a');
+        $fp = fopen($this->_memoryFilePath(), 'a');
         fputcsv($fp, [$this->_random_number]);
         fclose($fp);
 

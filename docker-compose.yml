@@ -1,18 +1,25 @@
-version: '3.7'
+services:
+    lotoquest:
+        build: .
+        ports:
+            - "8080:80"
+        environment:
+            # LOTOQUEST_BASE_PATH: /lotoquest
+            LOTOQUEST_DEBUG: "0"
+        volumes:
+            # drawn numbers, kept between restarts
+            - draws:/var/www/html/csv
+            # edit loto.csv and logos without rebuilding the image
+            - ./public/assets:/var/www/html/public/assets:ro
+
+    # docker compose run --rm tests
+    tests:
+        image: composer:2
+        profiles: ["tests"]
+        working_dir: /app
+        volumes:
+            - .:/app
+        command: sh -c "composer install --no-interaction && composer test"
 
 volumes:
-    logs:
-        driver: local
-
-services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - "8080:8080"
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+    draws:

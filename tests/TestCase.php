@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Application\Library\SortedDonations;
 use DI\ContainerBuilder;
 use Exception;
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
@@ -19,6 +20,47 @@ use Slim\Psr7\Uri;
 class TestCase extends PHPUnit_TestCase
 {
     use ProphecyTrait;
+
+    protected string $drawsDir = '';
+
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // each test gets its own empty draws directory
+        $this->drawsDir = sys_get_temp_dir() . '/lotoquest-tests-' . bin2hex(random_bytes(6));
+        mkdir($this->drawsDir);
+        $_ENV['LOTOQUEST_DRAWS_DIR'] = $this->drawsDir;
+        putenv('LOTOQUEST_DRAWS_DIR=' . $this->drawsDir);
+
+        SortedDonations::reset();
+    }
+
+
+    protected function tearDown(): void
+    {
+        $this->removeDirectory($this->drawsDir);
+        unset($_ENV['LOTOQUEST_DRAWS_DIR']);
+        putenv('LOTOQUEST_DRAWS_DIR');
+
+        parent::tearDown();
+    }
+
+
+    protected function removeDirectory(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        foreach (array_diff(scandir($dir) ?: [], ['.', '..']) as $entry) {
+            $path = $dir . '/' . $entry;
+            is_dir($path) ? $this->removeDirectory($path) : unlink($path);
+        }
+
+        rmdir($dir);
+    }
 
     /**
      * @return App

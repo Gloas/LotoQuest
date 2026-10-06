@@ -1,0 +1,14 @@
+.git
+.github
+.idea
+.vscode
+.phpunit.cache
+coverage
+vendor
+csv
+logs
+tests
+var/cache/*
+*.md
+Dockerfile
+docker-compose.yml

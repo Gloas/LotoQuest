@@ -50,7 +50,7 @@ class Partie
         if ($id == 'intro')
             return $id;
 
-        if ($prix = (int) $this->_params[2] ?? 0)
+        if ($prix = (int) ($this->_params[2] ?? 0))
             $id .= ' d ' . $prix;
 
         if ($minutes = $this->_params[3] ?? '')
@@ -62,13 +62,13 @@ class Partie
 
     public function getMinutes(): int
     {
-        return (int) $this->_params[3] ?? 0;
+        return (int) ($this->_params[3] ?? 0);
     }
 
 
     public function getPrix(): int
     {
-        return (int) $this->_params[2] ?? 0;
+        return (int) ($this->_params[2] ?? 0);
     }
 
 
@@ -97,19 +97,19 @@ class Partie
 
     public function getThanksDonatorsImg(): string
     {
-        return (string) $this->_params[2] ?? '';
+        return (string) ($this->_params[2] ?? '');
     }
 
 
     public function getThanksVolunteersImg(): string
     {
-        return (string) $this->_params[3] ?? '';
+        return (string) ($this->_params[3] ?? '');
     }
 
 
     public function getThanksMessage(): string
     {
-        return (string) $this->_params[1] ?? '';
+        return (string) ($this->_params[1] ?? '');
     }
 
 
@@ -133,18 +133,18 @@ class Partie
 
     public function getShowTitle(): string
     {
-        return (string) $this->_params[1] ?? '';
+        return (string) ($this->_params[1] ?? '');
     }
 
 
     public function getShowDesc(): string
     {
-        return str_replace('\n', '<br />', (string) $this->_params[2] ?? '');
+        return str_replace('\n', '<br />', (string) ($this->_params[2] ?? ''));
     }
 
 
     public function getShowImg(): string
     {
-        return (string) $this->_params[6] ?? '';
+        return (string) ($this->_params[6] ?? '');
     }
 }

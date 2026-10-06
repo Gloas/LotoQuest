@@ -6,44 +6,40 @@ jobs:
     tests:
         name: Tests PHP ${{ matrix.php }}
         runs-on: ubuntu-latest
-        continue-on-error: ${{ matrix.experimental }}
         strategy:
             fail-fast: false
             matrix:
-                php: [7.4, 8.0, 8.1]
-                experimental: [false]
+                php: ['8.2', '8.3', '8.4', '8.5']
                 include:
-                    - php: 8.1
+                    - php: '8.4'
                       analysis: true
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Set up PHP ${{ matrix.php }}
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  coverage: xdebug
+                  coverage: none
 
             - name: Install dependencies with Composer
-              uses: ramsey/composer-install@v2
-
-            - name: Coding standards
-              if: matrix.analysis
-              run: vendor/bin/phpcs
+              uses: ramsey/composer-install@v3
 
             - name: Static analysis
               if: matrix.analysis
-              run: vendor/bin/phpstan
+              run: composer analyse
 
             - name: Tests
-              run: vendor/bin/phpunit --coverage-clover clover.xml
+              run: composer test
 
-            - name: Upload coverage results to Coveralls
-              if: matrix.analysis
-              env:
-                  COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  composer require php-coveralls/php-coveralls -n -W
-                  vendor/bin/php-coveralls --coverage_clover=clover.xml -v
+    docker:
+        name: Docker image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Build image
+              run: docker build -t lotoquest .

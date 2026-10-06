@@ -13,7 +13,8 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         SettingsInterface::class => function () {
             return new Settings([
-                'displayErrorDetails' => true, // Should be set to false in production
+                // set LOTOQUEST_DEBUG=1 to display error details (never in production)
+                'displayErrorDetails' => (bool) ($_ENV['LOTOQUEST_DEBUG'] ?? getenv('LOTOQUEST_DEBUG') ?: false),
                 'logError'            => false,
                 'logErrorDetails'     => false,
                 'logger' => [

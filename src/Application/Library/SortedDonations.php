@@ -7,13 +7,13 @@ namespace App\Application\Library;
 class SortedDonations
 {
 
-    protected static SortedDonations $_instance;
+    protected static ?SortedDonations $_instance = null;
 
     protected array $_sorted_donations_array = [];
 
-    public static function getInstance(): static
+    public static function getInstance(): self
     {
-        return static::$_instance ??= new static;
+        return static::$_instance ??= new self;
     }
 
 
@@ -21,7 +21,14 @@ class SortedDonations
     {
         $this->_sorted_donations_array =
             array_map(fn($row) => str_getcsv($row, escape: '\\'),
-                      file(__DIR__ . '/../../../public/assets/loto.csv'));
+                      file(Paths::lotoCsv()));
+    }
+
+
+    /** Forget the loaded prize sheet, so the next getInstance() reads it again. */
+    public static function reset(): void
+    {
+        static::$_instance = null;
     }
 
 
@@ -42,7 +49,7 @@ class SortedDonations
     {
         $unique = [];
         foreach($donations as $donation) {
-            if ( ! $donation[6] ?? '')
+            if ( ! ($donation[6] ?? ''))
                 continue;
 
             $key = trim(strtolower($donation[6] ?? ''));

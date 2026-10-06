@@ -2,13 +2,14 @@
 
 ## Pull Requests
 
-1. Fork the Slim Skeleton repository
-2. Create a new branch for each feature or improvement
-3. Send a pull request from each feature branch to the **4.x** branch
+1. Fork the repository
+2. Create a branch for each feature or fix
+3. Make sure `composer test` and `composer analyse` pass
+4. Send a pull request to the **main** branch
 
-It is very important to separate new features or improvements into separate feature branches, and to send a
-pull request for each branch. This allows us to review and pull in new features or improvements individually.
+Please keep one feature or fix per pull request, with tests for new behaviour.
 
 ## Style Guide
 
-All pull requests must adhere to the [PSR-12 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md).
+New files follow the [PSR-12 standard](https://www.php-fig.org/psr/psr-12/) (`composer lint`). In existing files,
+match the surrounding code.

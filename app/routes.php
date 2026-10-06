@@ -13,7 +13,7 @@ use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 if ( !defined('BASE_PATH'))
-    define('BASE_PATH', '');
+    define('BASE_PATH', rtrim((string) ($_ENV['LOTOQUEST_BASE_PATH'] ?? getenv('LOTOQUEST_BASE_PATH') ?: ''), '/'));
 // define('BASE_PATH', '/lotoquest/public');
 
 return function (App $app) {

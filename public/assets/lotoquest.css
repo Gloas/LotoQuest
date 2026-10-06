@@ -2,6 +2,10 @@ body {
     background-color: #8C68CD;
 }
 
+body.p-0 {
+    padding: 0 4em !important;
+}
+
 main * {
     white-space: pre-wrap;
 }
@@ -10,7 +14,8 @@ nav {
 }
 
 .current_number {
-    font-size: 275px;
+    *    font-size: 275px;
+    font-size: 230px;
     width: 100%;
 }
 
@@ -19,7 +24,8 @@ table {
 }
 
 table td {
-    font-size: 30px;
+    *    font-size: 30px;
+    font-size: 25px;
 }
 
 .card img.card-img-top {
@@ -375,4 +381,8 @@ body.gros_lot button {
 body.pas_de_bol main .table-bordered,
 body.gros_lot main .table-bordered {
     background-color: rgba(0,0,0, 0.4) ;
+}
+
+.reveal {
+    position: absolute;
 }
